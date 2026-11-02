@@ -1,4 +1,4 @@
-const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=s=>document.querySelector(s),RM=false;
 const nm=(id,c)=>`<i style="color:${c}">${id[0]}</i>${id.slice(1)}`;
 const CH=I18N.chaps;
 const vf=a=>`<video class="vfx ${a[4]}" src="../assets/video/${a[0]}.mp4#t=${(Math.random()*3).toFixed(1)}" muted loop playsinline preload="none" aria-hidden="true" data-r="${a[6]||1}" style="left:${a[1]}%;top:${a[2]}%;width:${a[3]}%;${a[5]||''}"></video>`;
@@ -33,7 +33,7 @@ document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.c
 const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFrequency',`${.004+Math.sin(t)*.0012} ${.007+Math.cos(t*.9)*.002}`);requestAnimationFrame(f)})();
 
 /* vidéos des illustrations : lecture seulement à l'écran ; animations CSS en pause hors écran */
-(function(){const RMx=matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function(){const RMx=false;  /* animations gardées même avec « Réduire les animations » (choix du 03/11/2026) */
 document.querySelectorAll('.hero-img,.hero').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
  new IntersectionObserver(es=>{const on=es[0].isIntersecting;box.classList.toggle('off',!on);
   vids.forEach(v=>{if(on&&!RMx){v.preload='auto';v.playbackRate=+v.dataset.r||1;v.play().catch(()=>{})}else v.pause()})}).observe(box);
