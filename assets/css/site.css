@@ -101,6 +101,12 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .more .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:auto}.more .chip{background:var(--card)}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
+/* « Toutes les applis » : fond discret (aurore) sous des cartes en verre */
+:root,[data-theme=light]{--bento-veil:rgba(245,245,247,.86);--tile-glass:rgba(255,255,255,.55);--tile-edge:rgba(255,255,255,.7)}
+[data-theme=dark]{--bento-veil:rgba(12,12,14,.5);--tile-glass:rgba(28,28,32,.42);--tile-edge:rgba(255,255,255,.1)}
+.bento{position:relative;isolation:isolate;background:linear-gradient(var(--bg2),transparent 18%,transparent 82%,var(--bg2)),linear-gradient(var(--bento-veil),var(--bento-veil)),url(../img/bento_bg.jpg) 50% 30%/cover var(--bg2)}
+.tile{background:var(--tile-glass);border:1px solid var(--tile-edge);backdrop-filter:blur(28px) saturate(1.6);-webkit-backdrop-filter:blur(28px) saturate(1.6)}
+
 :root,[data-theme=light]{--pad:rgba(251,251,253,.78);--vig:rgba(251,251,253,0);--ts:0 1px 18px rgba(255,255,255,.7);--g1:#b45309;--g2:#b91c1c;--g3:#0369a1}
 [data-theme=dark]{--pad:rgba(5,6,7,.62);--ts:0 2px 26px rgba(0,0,0,.85);--g1:#f59e0b;--g2:#ef4444;--g3:#38bdf8}
 .hero{position:relative;min-height:760px;height:100svh;max-height:980px;padding:120px 20px 120px;overflow:hidden;isolation:isolate}
