@@ -157,6 +157,19 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .vfx.orb{translate:-50% -50%}
 .hero-img.plate .pic{inset:-2%;animation:none;transform:translate3d(calc(var(--mx,0)*-6px),calc(var(--my,0)*-4px),0)}
 .vfx.flame{filter:brightness(1.12) saturate(1.1)}
+.grid:has(.stele){grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:34px 26px}
+.tile.stele{background:url(../img/stele0.webp) center/100% 100% no-repeat;box-shadow:none;border-radius:0;aspect-ratio:3/4.2;min-height:0;padding:40% 18% 14%;gap:8px;align-items:center;text-align:center;justify-content:flex-start;filter:drop-shadow(0 18px 24px rgba(0,0,0,.45));color:#1f1d1a}
+.tile.stele.s1{background-image:url(../img/stele1.webp);padding-top:36%}
+.tile.stele::before{display:none}
+.tile.stele:hover{box-shadow:none;transform:translateY(-6px) rotate(-.4deg)}
+.tile.stele img{width:60px;height:60px;border-radius:13px;box-shadow:0 2px 0 rgba(255,255,255,.25),0 6px 14px -6px rgba(0,0,0,.6)}
+.tile.stele small{color:#24211d;letter-spacing:.14em;font-size:12px;font-weight:700}
+.tile.stele h3{font-size:27px;color:#14120f;text-shadow:0 1px 0 rgba(255,255,255,.45)}
+.tile.stele p{color:#14120f;font-size:16.5px;font-weight:500;line-height:1.35;text-shadow:0 1px 0 rgba(255,255,255,.45)}
+.tile.stele .a{justify-content:center;gap:16px;font-size:16px;margin-top:auto;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+.tile.stele .a a{color:#0b3d6e;font-weight:700}
+.tile.stele p{flex:0 1 auto}
+@media(max-width:640px){.tile.stele{padding:34% 18% 13%}}
 .strip{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 14px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);max-width:calc(100vw - 24px);overflow:hidden}
 .strip img{width:clamp(30px,4.2vw,52px);height:clamp(30px,4.2vw,52px);border-radius:24%}
 @media(max-width:640px){.strip img:nth-child(n+8){display:none}}
