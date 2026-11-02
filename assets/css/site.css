@@ -102,6 +102,9 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 nav{white-space:nowrap}nav a.l{white-space:nowrap}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
+/* bouton musique */
+.snd svg .w{display:none}.snd.on svg .w{display:inline}.snd.on svg .x{display:none}
+.snd.on{color:var(--btn)}
 /* performance : flous cuits dans les images, aucun filtre recalculé à chaque image */
 .hero-img .dof,.hero-img .dof2{display:none}
 .hero-img .chip{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--card) 80%,transparent)}
