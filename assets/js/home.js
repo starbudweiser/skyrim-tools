@@ -1,7 +1,7 @@
 const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nm=(id,c)=>`<i style="color:${c}">${id[0]}</i>${id.slice(1)}`;
 const CH=I18N.chaps;
-const vf=a=>`<video class="vfx ${a[4]}" src="../assets/video/${a[0]}.mp4#t=${(Math.random()*3).toFixed(1)}" muted loop playsinline preload="none" aria-hidden="true" style="left:${a[1]}%;top:${a[2]}%;width:${a[3]}%"></video>`;
+const vf=a=>`<video class="vfx ${a[4]}" src="../assets/video/${a[0]}.mp4#t=${(Math.random()*3).toFixed(1)}" muted loop playsinline preload="none" aria-hidden="true" data-r="${a[6]||1}" style="left:${a[1]}%;top:${a[2]}%;width:${a[3]}%;${a[5]||''}"></video>`;
 const spr=a=>{const d=(Math.random()*.6).toFixed(2),im=(c)=>`<img class="spr ${a.kind} ${c}" src="../assets/sprites/${a.file}" alt="" style="left:${a.x}%;top:${a.y}%;width:${a.w}%;--dl:${d}s">`;return a.kind==='orb'?im('')+im('spin')+im('spin2'):im('glow')+im('')};
 const sp=a=>{const[t,x,y,c,w]=a,n=t==='orb'?14:t==='fire'?8:t==='torch'?4:t==='embers'?7:0;return `<i class="sp ${t}" style="left:${x}%;top:${y}%;--c:${c};--w:${w}%;animation-delay:${(Math.random()*2).toFixed(2)}s">${Array.from({length:n},()=>`<b style="--dx:${(Math.random()*90-45).toFixed(0)}px;--d:${(Math.random()*2.6).toFixed(2)}s;--t:${(1.8+Math.random()*1.6).toFixed(2)}s"></b>`).join('')}</i>`};
 $('#chaps').innerHTML=CH.map(h=>`<section class="chap" id="${h.id}"><header><div class="k rv">${h.k}</div><h2 class="rv">${h.t}</h2><p class="rv">${h.p}</p></header>
@@ -51,7 +51,7 @@ document.querySelectorAll('.hero-img,.hero[data-fx]').forEach(box=>{const fx=box
    c.shadowBlur=bl+3;c.beginPath();c.arc(p.x,p.y,r,0,6.283);c.fill()}
   raf=requestAnimationFrame(frame)}
  const vids=[...box.querySelectorAll('video.vfx')];
- new IntersectionObserver(es=>{on=es[0].isIntersecting;vids.forEach(v=>{if(on&&!RMx){v.preload='auto';v.play().catch(()=>{})}else v.pause()});cancelAnimationFrame(raf);if(on&&!RMx)frame();else if(on){frame();cancelAnimationFrame(raf)}}).observe(box);
+ new IntersectionObserver(es=>{on=es[0].isIntersecting;vids.forEach(v=>{if(on&&!RMx){v.preload='auto';v.playbackRate=+v.dataset.r||1;v.play().catch(()=>{})}else v.pause()});cancelAnimationFrame(raf);if(on&&!RMx)frame();else if(on){frame();cancelAnimationFrame(raf)}}).observe(box);
  box.addEventListener('pointermove',e=>{const r=box.getBoundingClientRect();box.style.setProperty('--mx',((e.clientX-r.left)/r.width*2-1).toFixed(3));box.style.setProperty('--my',((e.clientY-r.top)/r.height*2-1).toFixed(3))});
  box.addEventListener('pointerleave',()=>{box.style.setProperty('--mx',0);box.style.setProperty('--my',0)});
 });})();
