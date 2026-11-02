@@ -1,0 +1,36 @@
+const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const nm=(id,c)=>`<i style="color:${c}">${id[0]}</i>${id.slice(1)}`;
+const CH=[
+ {cat:"Gestionnaires",id:"gestionnaires",cls:"hot",img:"fortress",k:"Gérer",t:"Tous vos mods. Un seul endroit.",p:"Du gestionnaire complet aux listes prêtes à jouer."},
+ {cat:"Installation",id:"installation",cls:"cold",img:"frost",k:"Installer",t:"Chaque fichier à sa place.",p:"Archives, installateurs, dossiers : sans effort."},
+ {cat:"Création",id:"creation",cls:"liq",img:"liquid",k:"Créer",t:"Éditer, alléger, traduire.",p:"Vos plugins et vos traductions, en toute fluidité."},
+ {cat:"Diagnostic",id:"diagnostic",cls:"hot",img:"shard",k:"Réparer",t:"Comprendre ce qui plante.",p:"Un crash log devient une réponse. Un réglage, un choix sûr."}
+];
+$('#chaps').innerHTML=CH.map(h=>`<section class="chap" id="${h.id}"><header><div class="k rv">${h.k}</div><h2 class="rv">${h.t}</h2><p class="rv">${h.p}</p></header>
+<div class="hero-img ${h.cls} rv"><div class="pic" style="background-image:url(assets/img/${h.img}.jpg)"></div><div class="dof2"></div><div class="dof"></div><div class="chips">${APPS.filter(a=>a.cat===h.cat).map(a=>`<a class="chip" href="apps/${a.id}.html"><img src="assets/icons/${a.id}.png" alt=""><span>${nm(a.id,a.c)}</span></a>`).join('')}</div></div></section>`).join('');
+$('#grid').innerHTML=APPS.map((a,i)=>`<article class="tile rv" id="${a.id}" style="--ac:${a.c};--d:${(i%4)*.07}s"><img src="assets/icons/${a.id}.png" alt="" loading="lazy"><small>${a.cat}</small><h3>${nm(a.id,a.c)}</h3><p>${a.fr}</p><div class="a"><a href="apps/${a.id}.html">En savoir plus</a><a href="${GH}${a.repo}/releases/latest">Télécharger</a></div></article>`).join('');
+$('#logos').innerHTML=APPS.map(a=>`<a href="assets/icons/${a.id}.png" download><img src="assets/icons/${a.id}.png" alt="" loading="lazy"><span>${a.id}</span></a>`).join('');
+/* éventail d'icônes */
+const fan=$('#fan'),n=APPS.length;
+fan.innerHTML=APPS.map((a,i)=>{const t=i-(n-1)/2;return `<div class="ic" style="--n:${i};--i:${(t*(innerWidth<700?30:78)).toFixed(0)};--j:${(Math.abs(t)**1.6*3).toFixed(0)};--r:${(t*2.2).toFixed(1)}"><img src="assets/icons/${a.id}.png" alt=""></div>`}).join('');
+/* thème */
+$('#tg').onclick=()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('theme-b',t)}catch(e){}};
+/* révélations */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+/* texte géant */
+const st=$('#st');st.innerHTML=st.textContent.split(' ').map(w=>`<span class="w">${w}</span>`).join(' ');const ws=[...st.querySelectorAll('.w')];
+/* compteurs */
+const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);const N=+e.target.dataset.n,t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1500);e.target.textContent=Math.round(N*(1-Math.pow(1-p,4)));if(p<1)requestAnimationFrame(f)})(t0)}));
+document.querySelectorAll('[data-n]').forEach(el=>co.observe(el));
+/* défilement : zoom des images, éventail, texte */
+const imgs=[...document.querySelectorAll('.hero-img')];
+function onScroll(){const vh=innerHeight;
+ imgs.forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<-100||r.top>vh+100)return;const p=(r.top+r.height/2-vh/2)/vh;el.style.setProperty('--z',(1.04+Math.min(1,Math.abs(p))*.12).toFixed(3));el.querySelector('.pic').style.setProperty('--ty',(p*-40).toFixed(1)+'px')});
+ const fr=fan.getBoundingClientRect(),q=Math.min(1,Math.max(0,-fr.top/vh+.25));fan.style.setProperty('--sp',(1+q*.35).toFixed(3));fan.style.setProperty('--fy',(q*-30).toFixed(1)+'px');
+ const r=st.getBoundingClientRect(),p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.4)));ws.forEach((w,i)=>w.classList.toggle('on',i/ws.length<p*1.15))}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+/* halo sur les tuiles */
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.tile');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--x',(e.clientX-r.left)+'px');c.style.setProperty('--y',(e.clientY-r.top)+'px')}});
+/* liquide */
+const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFrequency',`${.004+Math.sin(t)*.0012} ${.007+Math.cos(t*.9)*.002}`);requestAnimationFrame(f)})();
