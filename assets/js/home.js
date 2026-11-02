@@ -35,7 +35,7 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
 /* activité dans les illustrations : particules à profondeur de champ, selon l'ambiance du chapitre */
 (function(){const RMx=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.querySelectorAll('.hero-img,.hero[data-fx]').forEach(box=>{const fx=box.dataset.fx,cv=box.querySelector('canvas.fx'),c=cv.getContext('2d');let W=0,H=0,P=[],on=false,raf=0;
- const N={snow:80,glint:46,dust:60,ember:55,dawn:52,blizzard:120}[fx]||40;
+ const N=0;  /* particules retirées à la demande */
  const mk=()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random(),s:Math.random()*6.28,t:Math.random()*6.28});
  function size(){const r=box.getBoundingClientRect();W=cv.width=Math.max(1,r.width);H=cv.height=Math.max(1,r.height);P=Array.from({length:N},mk)}
  size();new ResizeObserver(size).observe(box);
