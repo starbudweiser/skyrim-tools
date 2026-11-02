@@ -102,6 +102,13 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 nav{white-space:nowrap}nav a.l{white-space:nowrap}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
+/* performance : flous cuits dans les images, aucun filtre recalculé à chaque image */
+.hero-img .dof,.hero-img .dof2{display:none}
+.hero-img .chip{backdrop-filter:none;-webkit-backdrop-filter:none;background:color-mix(in srgb,var(--card) 80%,transparent)}
+.tile{backdrop-filter:none;-webkit-backdrop-filter:none}
+.pano{filter:none}
+.hero .mist,.hero-img .mist{filter:none}
+.off .pano,.off .mist{animation-play-state:paused}
 /* galerie de captures des fiches applis */
 .shots{padding:4vh max(16px,5vw) 12vh;max-width:1240px;margin:auto}
 .shots h2{font-size:clamp(32px,5vw,64px);letter-spacing:-.04em;font-weight:700;text-align:center;margin-bottom:44px}
