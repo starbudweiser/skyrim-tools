@@ -6,8 +6,7 @@ $('#chaps').innerHTML=CH.map(h=>`<section class="chap" id="${h.id}"><header><div
 $('#grid').innerHTML=APPS.map((a,i)=>`<article class="tile rv" id="${a.id}" style="--ac:${a.c};--d:${(i%4)*.07}s"><img src="../assets/icons/${a.id}.png" alt="" loading="lazy"><small>${I18N.cats[a.cat]}</small><h3>${nm(a.id,a.c)}</h3><p>${a.d}</p><div class="a"><a href="apps/${a.id}.html">${I18N.more}</a><a href="${GH}${a.repo}/releases/latest">${I18N.download}</a></div></article>`).join('');
 $('#logos').innerHTML=APPS.map(a=>`<a href="../assets/icons/${a.id}.png" download><img src="../assets/icons/${a.id}.png" alt="" loading="lazy"><span>${a.id}</span></a>`).join('');
 /* éventail d'icônes */
-const fan=$('#fan'),n=APPS.length;
-fan.innerHTML=APPS.map((a,i)=>{const t=i-(n-1)/2;return `<div class="ic" style="--n:${i};--i:${(t*(innerWidth<700?30:78)).toFixed(0)};--j:${(Math.abs(t)**1.6*3).toFixed(0)};--r:${(t*2.2).toFixed(1)}"><img src="../assets/icons/${a.id}.png" alt=""></div>`}).join('');
+$('#strip').innerHTML=APPS.map(a=>`<img src="../assets/icons/${a.id}.png" alt="">`).join('');
 /* thème */
 $('#tg').onclick=()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('theme-b',t)}catch(e){}};
 /* révélations */
@@ -22,7 +21,6 @@ document.querySelectorAll('[data-n]').forEach(el=>co.observe(el));
 const imgs=[...document.querySelectorAll('.hero-img')];
 function onScroll(){const vh=innerHeight;
  imgs.forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<-100||r.top>vh+100)return;const p=(r.top+r.height/2-vh/2)/vh;el.style.setProperty('--z',(1.04+Math.min(1,Math.abs(p))*.12).toFixed(3));el.querySelector('.pic').style.setProperty('--ty',(p*-40).toFixed(1)+'px')});
- const fr=fan.getBoundingClientRect(),q=Math.min(1,Math.max(0,-fr.top/vh+.25));fan.style.setProperty('--sp',(1+q*.35).toFixed(3));fan.style.setProperty('--fy',(q*-30).toFixed(1)+'px');
  const r=st.getBoundingClientRect(),p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.4)));ws.forEach((w,i)=>w.classList.toggle('on',i/ws.length<p*1.15))}
 addEventListener('scroll',onScroll,{passive:true});onScroll();
 /* halo sur les tuiles */

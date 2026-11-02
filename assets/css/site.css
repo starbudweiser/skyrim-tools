@@ -99,3 +99,18 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .more{padding:10vh max(16px,4vw);background:var(--bg2)}.more h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.04em;text-align:center;margin-bottom:34px}
 .more .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:auto}.more .chip{background:var(--card)}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
+
+:root,[data-theme=light]{--pad:rgba(251,251,253,.78);--vig:rgba(251,251,253,0);--ts:0 1px 18px rgba(255,255,255,.7);--g1:#b45309;--g2:#b91c1c;--g3:#0369a1}
+[data-theme=dark]{--pad:rgba(5,6,7,.62);--ts:0 2px 26px rgba(0,0,0,.85);--g1:#f59e0b;--g2:#ef4444;--g3:#38bdf8}
+.hero{position:relative;min-height:760px;height:100svh;max-height:980px;padding:120px 20px 120px;overflow:hidden;isolation:isolate}
+.pano{position:absolute;inset:-4%;z-index:-3;background:url(../img/hero.jpg) 50% 55%/cover;filter:blur(2px) saturate(1.08);transform:scale(1.06);animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.06) translateX(-1.2%)}to{transform:scale(1.1) translateX(1.2%)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(to bottom,var(--bg) 0,transparent 16%,transparent 62%,var(--bg) 100%)}
+.hero::after{content:"";position:absolute;left:50%;top:44%;width:min(900px,96vw);height:62%;transform:translate(-50%,-50%);z-index:-1;background:radial-gradient(closest-side,var(--pad),transparent);filter:blur(24px)}
+.hero .k,.hero h1,.hero p.lead,.hero .lnk{text-shadow:var(--ts)}
+.hero .k{color:var(--muted)}.hero p.lead{color:var(--text)}.hero .lnk{color:var(--text)}
+.hero h1 span{background:linear-gradient(95deg,var(--g1),var(--g2) 45%,var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent;animation:none;filter:drop-shadow(0 2px 14px rgba(0,0,0,.35))}
+.strip{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 14px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);max-width:calc(100vw - 24px);overflow:hidden}
+.strip img{width:clamp(30px,4.2vw,52px);height:clamp(30px,4.2vw,52px);border-radius:24%}
+@media(max-width:640px){.strip img:nth-child(n+8){display:none}}
+@media(prefers-reduced-motion:reduce){.pano{animation:none}}
