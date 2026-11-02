@@ -102,6 +102,8 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 nav{white-space:nowrap}nav a.l{white-space:nowrap}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
+/* flottement des icônes de l'accueil : conservé même avec « Réduire les animations » (mouvement lent et léger) */
+@media(prefers-reduced-motion:reduce){.fan .ic{animation:fl 7s ease-in-out infinite!important;animation-delay:calc(var(--n)*-.5s)!important}}
 /* bouton musique */
 .snd svg .w{display:none}.snd.on svg .w{display:inline}.snd.on svg .x{display:none}
 .snd.on{color:var(--btn)}
