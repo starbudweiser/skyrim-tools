@@ -99,6 +99,7 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .ver{font-size:14px;color:var(--muted)}
 .more{padding:10vh max(16px,4vw);background:var(--bg2)}.more h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.04em;text-align:center;margin-bottom:34px}
 .more .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:auto}.more .chip{background:var(--card)}
+nav{white-space:nowrap}nav a.l{white-space:nowrap}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
 /* galerie de captures des fiches applis */
