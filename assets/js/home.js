@@ -1,18 +1,13 @@
 const $=s=>document.querySelector(s),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nm=(id,c)=>`<i style="color:${c}">${id[0]}</i>${id.slice(1)}`;
-const CH=[
- {cat:"Gestionnaires",id:"gestionnaires",cls:"hot",img:"fortress",k:"Gérer",t:"Tous vos mods. Un seul endroit.",p:"Du gestionnaire complet aux listes prêtes à jouer."},
- {cat:"Installation",id:"installation",cls:"cold",img:"frost",k:"Installer",t:"Chaque fichier à sa place.",p:"Archives, installateurs, dossiers : sans effort."},
- {cat:"Création",id:"creation",cls:"liq",img:"liquid",k:"Créer",t:"Éditer, alléger, traduire.",p:"Vos plugins et vos traductions, en toute fluidité."},
- {cat:"Diagnostic",id:"diagnostic",cls:"hot",img:"shard",k:"Réparer",t:"Comprendre ce qui plante.",p:"Un crash log devient une réponse. Un réglage, un choix sûr."}
-];
+const CH=I18N.chaps;
 $('#chaps').innerHTML=CH.map(h=>`<section class="chap" id="${h.id}"><header><div class="k rv">${h.k}</div><h2 class="rv">${h.t}</h2><p class="rv">${h.p}</p></header>
-<div class="hero-img ${h.cls} rv"><div class="pic" style="background-image:url(assets/img/${h.img}.jpg)"></div><div class="dof2"></div><div class="dof"></div><div class="chips">${APPS.filter(a=>a.cat===h.cat).map(a=>`<a class="chip" href="apps/${a.id}.html"><img src="assets/icons/${a.id}.png" alt=""><span>${nm(a.id,a.c)}</span></a>`).join('')}</div></div></section>`).join('');
-$('#grid').innerHTML=APPS.map((a,i)=>`<article class="tile rv" id="${a.id}" style="--ac:${a.c};--d:${(i%4)*.07}s"><img src="assets/icons/${a.id}.png" alt="" loading="lazy"><small>${a.cat}</small><h3>${nm(a.id,a.c)}</h3><p>${a.fr}</p><div class="a"><a href="apps/${a.id}.html">En savoir plus</a><a href="${GH}${a.repo}/releases/latest">Télécharger</a></div></article>`).join('');
-$('#logos').innerHTML=APPS.map(a=>`<a href="assets/icons/${a.id}.png" download><img src="assets/icons/${a.id}.png" alt="" loading="lazy"><span>${a.id}</span></a>`).join('');
+<div class="hero-img ${h.cls} rv"><div class="pic" style="background-image:url(../assets/img/${h.img}.jpg)"></div><div class="dof2"></div><div class="dof"></div><div class="chips">${APPS.filter(a=>a.cat===h.cat).map(a=>`<a class="chip" href="#${a.id}"><img src="../assets/icons/${a.id}.png" alt=""><span>${nm(a.id,a.c)}</span></a>`).join('')}</div></div></section>`).join('');
+$('#grid').innerHTML=APPS.map((a,i)=>`<article class="tile rv" id="${a.id}" style="--ac:${a.c};--d:${(i%4)*.07}s"><img src="../assets/icons/${a.id}.png" alt="" loading="lazy"><small>${I18N.cats[a.cat]}</small><h3>${nm(a.id,a.c)}</h3><p>${a.d}</p><div class="a"><a href="apps/${a.id}.html">${I18N.more}</a><a href="${GH}${a.repo}/releases/latest">${I18N.download}</a></div></article>`).join('');
+$('#logos').innerHTML=APPS.map(a=>`<a href="../assets/icons/${a.id}.png" download><img src="../assets/icons/${a.id}.png" alt="" loading="lazy"><span>${a.id}</span></a>`).join('');
 /* éventail d'icônes */
 const fan=$('#fan'),n=APPS.length;
-fan.innerHTML=APPS.map((a,i)=>{const t=i-(n-1)/2;return `<div class="ic" style="--n:${i};--i:${(t*(innerWidth<700?30:78)).toFixed(0)};--j:${(Math.abs(t)**1.6*3).toFixed(0)};--r:${(t*2.2).toFixed(1)}"><img src="assets/icons/${a.id}.png" alt=""></div>`}).join('');
+fan.innerHTML=APPS.map((a,i)=>{const t=i-(n-1)/2;return `<div class="ic" style="--n:${i};--i:${(t*(innerWidth<700?30:78)).toFixed(0)};--j:${(Math.abs(t)**1.6*3).toFixed(0)};--r:${(t*2.2).toFixed(1)}"><img src="../assets/icons/${a.id}.png" alt=""></div>`}).join('');
 /* thème */
 $('#tg').onclick=()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('theme-b',t)}catch(e){}};
 /* révélations */
