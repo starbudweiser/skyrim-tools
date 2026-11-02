@@ -109,7 +109,7 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .hero::after{content:"";position:absolute;left:50%;top:44%;width:min(900px,96vw);height:62%;transform:translate(-50%,-50%);z-index:-1;background:radial-gradient(closest-side,var(--pad),transparent);filter:blur(24px)}
 .hero .k,.hero h1,.hero p.lead,.hero .lnk{text-shadow:var(--ts)}
 .hero .k{color:var(--muted)}.hero p.lead{color:var(--text)}.hero .lnk{color:var(--text)}
-.hero h1 span{background:linear-gradient(95deg,var(--g1),var(--g2) 45%,var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent;animation:none;filter:drop-shadow(0 2px 14px rgba(0,0,0,.35))}
+.hero h1 span{background:linear-gradient(95deg,var(--g1),var(--g2) 45%,var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent;animation:none;filter:none;text-shadow:none}
 .fan{position:absolute;left:50%;bottom:22px;width:min(1000px,94vw);height:clamp(84px,11vw,130px);margin:0;transform:translateX(-50%);perspective:none}
 .fan .ic{width:clamp(38px,5.2vw,72px);margin:calc(clamp(38px,5.2vw,72px)/-2) 0 0 calc(clamp(38px,5.2vw,72px)/-2);box-shadow:0 14px 34px -14px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.45)}
 @media(max-width:640px){.fan .ic:nth-child(n+12){display:none}}
