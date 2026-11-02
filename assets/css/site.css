@@ -156,6 +156,10 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .vfx.orb{translate:-50% -50%}
 .hero-img.plate .pic{inset:-2%;animation:none;transform:translate3d(calc(var(--mx,0)*-6px),calc(var(--my,0)*-4px),0)}
 .vfx.flame{filter:brightness(1.12) saturate(1.1)}
+@font-face{font-family:"Sovngarde";src:url(../fonts/Sovngarde-Bold.ttf) format("truetype");font-weight:700;font-display:swap}
+@font-face{font-family:"Sovngarde";src:url(../fonts/Sovngarde-Light.ttf) format("truetype");font-weight:300;font-display:swap}
+.hero h1,.chap h2,.bento h2,.press h2,footer h2,.app-hero h1,.more h2{font-family:"Sovngarde",-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;font-weight:700;letter-spacing:.01em}
+.hero h1{letter-spacing:.02em}
 .strip{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 14px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);max-width:calc(100vw - 24px);overflow:hidden}
 .strip img{width:clamp(30px,4.2vw,52px);height:clamp(30px,4.2vw,52px);border-radius:24%}
 @media(max-width:640px){.strip img:nth-child(n+8){display:none}}
