@@ -101,6 +101,15 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .more .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:auto}.more .chip{background:var(--card)}
 @media(max-width:700px){nav{padding-left:10px}nav b{display:none}}
 
+/* galerie de captures des fiches applis */
+.shots{padding:4vh max(16px,5vw) 12vh;max-width:1240px;margin:auto}
+.shots h2{font-size:clamp(32px,5vw,64px);letter-spacing:-.04em;font-weight:700;text-align:center;margin-bottom:44px}
+.shots .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2.4vw,28px)}
+.shots .shot{display:block;justify-self:center;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 30px 70px -28px rgba(0,0,0,.55),0 0 0 1px var(--line);background:#1e1e1e;transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s}
+.shots .shot:first-child{grid-column:1/-1}
+.shots .shot:hover{transform:translateY(-4px);box-shadow:0 40px 90px -30px rgba(0,0,0,.6),0 0 0 1px var(--line)}
+.shots img{display:block;width:100%;height:auto}
+@media(max-width:640px){.shots .grid{grid-template-columns:1fr}}
 /* « Toutes les applis » : fond discret (aurore) sous des cartes en verre */
 :root,[data-theme=light]{--bento-veil:rgba(245,245,247,.86);--tile-glass:rgba(255,255,255,.55);--tile-edge:rgba(255,255,255,.7)}
 [data-theme=dark]{--bento-veil:rgba(12,12,14,.5);--tile-glass:rgba(28,28,32,.42);--tile-edge:rgba(255,255,255,.1)}
