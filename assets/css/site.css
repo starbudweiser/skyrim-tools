@@ -23,7 +23,7 @@ nav a.l:hover{background:var(--line);color:var(--text)}
 .row{display:flex;gap:22px;justify-content:center;align-items:center;margin-top:30px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;height:44px;padding:0 22px;border-radius:99px;background:var(--btn);color:var(--on-btn);font-size:17px;transition:background .2s,transform .3s cubic-bezier(.2,.8,.2,1)}
 .btn:hover{background:var(--btn-h);transform:scale(1.03)}
-.lnk{color:var(--blue);font-size:19px}.lnk::after{content:" ›";transition:margin .2s}.lnk:hover::after{margin-left:4px}
+.lnk{color:var(--blue);font-size:19px}.lnk::after{content:" \203A";transition:margin .2s}.lnk:hover::after{margin-left:4px}
 .lnk:hover{text-decoration:underline}
 /* éventail d'icônes en verre liquide */
 .fan{position:relative;width:min(1100px,94vw);height:clamp(170px,26vw,300px);margin-top:46px;perspective:1200px}
@@ -170,6 +170,8 @@ footer .cta{margin-bottom:46px}footer h2{font-size:clamp(36px,5vw,72px);letter-s
 .tile.stele .a a{color:#0b3d6e;font-weight:700}
 .tile.stele p{flex:0 1 auto}
 @media(max-width:640px){.tile.stele{padding:34% 18% 13%}}
+.flinks{margin:0 0 14px;font-size:14px}.flinks a{color:var(--text)}.flinks a:hover{text-decoration:underline}
+@media(max-width:640px){.hero-img .chips{gap:6px;padding:8px}.hero-img .chip{padding:3px 10px 3px 3px;gap:6px;font-size:11.5px}.hero-img .chip img{width:24px;height:24px;border-radius:7px}}
 .strip{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 14px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);max-width:calc(100vw - 24px);overflow:hidden}
 .strip img{width:clamp(30px,4.2vw,52px);height:clamp(30px,4.2vw,52px);border-radius:24%}
 @media(max-width:640px){.strip img:nth-child(n+8){display:none}}
