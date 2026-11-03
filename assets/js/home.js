@@ -34,7 +34,11 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
 
 /* vidéos des illustrations : lecture seulement à l'écran ; animations CSS en pause hors écran */
 (function(){const RMx=false;  /* animations gardées même avec « Réduire les animations » (choix du 03/11/2026) */
-document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
+/* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
+const g=document.getElementById('grid');if(g){const w=document.createElement('div');w.className='wench';w.setAttribute('aria-hidden','true');
+ w.innerHTML='<div class="wimg"><video class="vfx steam" muted loop playsinline preload="none" data-r="1" style="left:22.5%;top:30%;width:26%"><source src="../assets/video/steam.mov" type=\'video/mp4; codecs="hvc1"\'><source src="../assets/video/steam.webm" type="video/webm"></video></div>';g.append(w);
+ const fit=()=>{const n=getComputedStyle(g).gridTemplateColumns.split(' ').length,k=APPS.length%n,e=k?n-k:0;w.style.display=e<2?'none':'';w.style.gridColumn=e<2?'':'span '+e};fit();addEventListener('resize',fit,{passive:true})}
+document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon,.wench').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
  new IntersectionObserver(es=>{const on=es[0].isIntersecting;box.classList.toggle('off',!on);
   vids.forEach(v=>{if(on&&!RMx){v.preload='auto';v.playbackRate=+v.dataset.r||1;v.play().catch(()=>{})}else v.pause()})}).observe(box);
  if(!box.classList.contains('hero-img'))return;
