@@ -40,9 +40,9 @@ const wv=[...document.querySelectorAll('.wyrm video')];if(wv.length){const box=w
  const Z={near:{w:[.42,.6],max:880,blur:0,f:'none',T:[4.5,6.5],y:[-.1,.6]},mid:{w:[.22,.32],max:460,blur:2.2,f:'contrast(.95)',T:[8,11],y:[0,.5]},far:{w:[.1,.15],max:230,blur:2.6,f:'contrast(.82) brightness(1.18) saturate(.8)',T:[13,18],y:[.02,.4]}};
  const fly=()=>{const q=R(),k=q<.3?'near':q<.65?'mid':'far',c=Z[k],v=wv.find(e=>e.dataset.z===k),W=box.clientWidth,H=box.clientHeight,d=R()<.5?-1:1,w=Math.min(W*U(...c.w),c.max);
   wv.forEach(e=>{if(e!==v){e.pause();e.style.visibility='hidden'}});
-  v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;v.preload='auto';try{v.currentTime=k==='near'?0:U(0,6)}catch(e){}v.playbackRate=k==='near'?U(.95,1.05):U(.9,1.12);v.play().catch(()=>{});
+  v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;v.preload='auto';try{v.currentTime=U(0,7.9)}catch(e){}v.playbackRate=k==='near'?U(.95,1.05):U(.9,1.12);v.play().catch(()=>{});
   const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);
-  const T=Math.min(U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),k==='near'?6400:1e9),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
+  const T=U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
   const at=s=>{const x=s*L[N];let i=1;while(i<N&&L[i]<x)i++;return(i-1+(x-L[i-1])/((L[i]-L[i-1])||1))/N};
   let t0=performance.now(),r=0;v.style.visibility='visible';
   const step=n=>{const s=(n-t0)/T;if(s>=1){v.style.visibility='hidden';v.pause();setTimeout(fly,U(2,7)*1000);return}
