@@ -227,3 +227,4 @@ footer{background:linear-gradient(to top,color-mix(in srgb,var(--bg) 0.0%,transp
 .strip img{width:clamp(30px,4.2vw,52px);height:clamp(30px,4.2vw,52px);border-radius:24%}
 @media(max-width:640px){.strip img:nth-child(n+8){display:none}}
 
+.statement{padding-left:max(24px,min(10vw,120px));padding-right:max(24px,min(10vw,120px))}
