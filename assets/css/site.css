@@ -107,6 +107,18 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
 .press .dragon{position:absolute;right:max(-5vw,-70px);top:-70px;width:min(38vw,500px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
 @media(max-width:1000px){.press .dragon{display:none}}
+/* sage de Haut Hrothgar au-dessus de l'appel final : détouré, halo bleu du Thu'um et rafales de neige derrière lui */
+.cta{position:relative}
+.sage{position:relative;width:min(76vw,880px);aspect-ratio:1152/896;margin:0 auto -170px;pointer-events:none;isolation:isolate}
+.sage::after{content:"";position:absolute;inset:0;background:url(../img/sage.webp) center/contain no-repeat;z-index:2}
+.sage::before{content:"";position:absolute;left:50%;top:42%;width:78%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;z-index:0;background:radial-gradient(closest-side,rgba(125,211,252,.55),rgba(56,130,246,.22) 45%,transparent 72%);filter:blur(6px);animation:thuum 6s ease-in-out infinite}
+@keyframes thuum{0%,100%{opacity:.55;scale:.94}50%{opacity:1;scale:1.06}}
+[data-theme=light] .sage::before{background:radial-gradient(closest-side,rgba(56,130,246,.4),rgba(56,130,246,.16) 45%,transparent 72%)}
+.sage .snow{z-index:1;mix-blend-mode:screen;opacity:.95;filter:brightness(2.6) contrast(1.2);-webkit-mask-image:radial-gradient(closest-side,#000 50%,transparent);mask-image:radial-gradient(closest-side,#000 50%,transparent)}
+[data-theme=light] .sage .snow{mix-blend-mode:multiply;filter:invert(1) contrast(1.4);opacity:.5}
+.cta h2,.cta .btn{position:relative;z-index:1}
+.cta h2{color:#f5f5f7;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+.vfx.flame{-webkit-mask-image:linear-gradient(to top,#000 62%,transparent);mask-image:linear-gradient(to top,#000 62%,transparent)}  /* haut des flammes fondu */
 /* bouton musique */
 .snd svg .w{display:none}.snd.on svg .w{display:inline}.snd.on svg .x{display:none}
 .snd.on{color:var(--btn)}
