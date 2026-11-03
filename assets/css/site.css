@@ -105,7 +105,9 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 /* dragon du dossier de presse : à droite du titre ; fondu dans le noir en sombre, carte arrondie en clair */
 .press .in{position:relative}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
-.press .dragon{position:absolute;right:max(-5vw,-70px);top:-70px;width:min(38vw,500px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
+.press .dragon{position:absolute;right:0;top:-80px;width:min(44vw,580px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
+.press .dragon{z-index:2}
+.press .dragon .dfire{position:absolute;left:0;top:0;width:66.7%;height:auto;translate:none;mix-blend-mode:normal}
 @media(max-width:1000px){.press .dragon{display:none}}
 /* sage de Haut Hrothgar au-dessus de l'appel final : détouré, halo bleu du Thu'um et rafales de neige derrière lui */
 .cta{position:relative}

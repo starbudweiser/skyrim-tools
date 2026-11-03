@@ -34,7 +34,7 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
 
 /* vidéos des illustrations : lecture seulement à l'écran ; animations CSS en pause hors écran */
 (function(){const RMx=false;  /* animations gardées même avec « Réduire les animations » (choix du 03/11/2026) */
-document.querySelectorAll('.hero-img,.hero,.sage').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
+document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
  new IntersectionObserver(es=>{const on=es[0].isIntersecting;box.classList.toggle('off',!on);
   vids.forEach(v=>{if(on&&!RMx){v.preload='auto';v.playbackRate=+v.dataset.r||1;v.play().catch(()=>{})}else v.pause()})}).observe(box);
  if(!box.classList.contains('hero-img'))return;
