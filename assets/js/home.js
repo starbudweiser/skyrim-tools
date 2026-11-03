@@ -34,18 +34,21 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
 
 /* vidéos des illustrations : lecture seulement à l'écran ; animations CSS en pause hors écran */
 (function(){const RMx=false;  /* animations gardées même avec « Réduire les animations » (choix du 03/11/2026) */
-/* dragon du hero : vols aléatoires à vitesse constante sur une courbe de Bézier, profondeur (taille, flou), inclinaison selon la pente */
-const wy=document.querySelector('.wyrm video');if(wy){const box=wy.parentElement,R=Math.random,U=(a,b)=>a+(b-a)*R(),bz=(p,t)=>{const u=1-t;return u*u*u*p[0]+3*u*u*t*p[1]+3*u*t*t*p[2]+t*t*t*p[3]};
- const fly=()=>{const W=box.clientWidth,H=box.clientHeight,d=R()<.5?-1:1,z=U(.55,1),w=Math.min(W*U(.3,.5),760)*z;
-  wy.style.width=w+'px';wy.style.filter='blur('+(.6+(1-z)*3.5).toFixed(1)+'px)';wy.style.opacity=(.62+.33*z).toFixed(2);wy.playbackRate=U(.85,1.1);
-  const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[U(.02,.45),U(-.05,.55),U(-.05,.55),U(0,.45)].map(v=>v*H);
-  const T=U(13,22)*1000*(1.4-.4*z),N=64,c=[0];for(let k=1;k<=N;k++)c.push(c[k-1]+Math.hypot(bz(xs,k/N)-bz(xs,(k-1)/N),bz(ys,k/N)-bz(ys,(k-1)/N)));
-  const at=s=>{const v=s*c[N];let k=1;while(k<N&&c[k]<v)k++;return(k-1+(v-c[k-1])/((c[k]-c[k-1])||1))/N};
-  let t0=performance.now(),r=0;wy.style.visibility='visible';
-  const step=n=>{const s=(n-t0)/T;if(s>=1){wy.style.visibility='hidden';setTimeout(fly,U(2,8)*1000);return}
+/* dragon du hero : 3 versions (near détaillée et nette, mid, far voilée), vols aléatoires sur une courbe de Bézier à vitesse constante,
+   plus rapide quand il est proche, inclinaison selon la pente, retourné selon le sens */
+const wv=[...document.querySelectorAll('.wyrm video')];if(wv.length){const box=wv[0].parentElement,R=Math.random,U=(a,b)=>a+(b-a)*R(),bz=(p,t)=>{const u=1-t;return u*u*u*p[0]+3*u*u*t*p[1]+3*u*t*t*p[2]+t*t*t*p[3]};
+ const Z={near:{w:[.42,.6],max:880,blur:0,f:'none',T:[4.5,7],y:[-.1,.6]},mid:{w:[.22,.32],max:460,blur:.7,f:'contrast(.95)',T:[8,11],y:[0,.5]},far:{w:[.1,.15],max:230,blur:1.5,f:'contrast(.82) brightness(1.18) saturate(.8)',T:[13,18],y:[.02,.4]}};
+ const fly=()=>{const q=R(),k=q<.3?'near':q<.65?'mid':'far',c=Z[k],v=wv.find(e=>e.dataset.z===k),W=box.clientWidth,H=box.clientHeight,d=R()<.5?-1:1,w=Math.min(W*U(...c.w),c.max);
+  wv.forEach(e=>{if(e!==v){e.pause();e.style.visibility='hidden'}});
+  v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;v.preload='auto';v.playbackRate=U(.9,1.12);v.play().catch(()=>{});
+  const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);
+  const T=U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
+  const at=s=>{const x=s*L[N];let i=1;while(i<N&&L[i]<x)i++;return(i-1+(x-L[i-1])/((L[i]-L[i-1])||1))/N};
+  let t0=performance.now(),r=0;v.style.visibility='visible';
+  const step=n=>{const s=(n-t0)/T;if(s>=1){v.style.visibility='hidden';v.pause();setTimeout(fly,U(2,7)*1000);return}
    const t=at(s),x=bz(xs,t),y=bz(ys,t),e=.002,dy=bz(ys,Math.min(1,t+e))-bz(ys,Math.max(0,t-e)),dx=Math.abs(bz(xs,Math.min(1,t+e))-bz(xs,Math.max(0,t-e)))||1;
    r+=(Math.max(-16,Math.min(16,-Math.atan2(dy,dx)*57.3))-r)*.06;
-   wy.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scaleX('+(-d)+') rotate('+r.toFixed(2)+'deg)';requestAnimationFrame(step)};
+   v.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scaleX('+(-d)+') rotate('+r.toFixed(2)+'deg)';requestAnimationFrame(step)};
   requestAnimationFrame(step)};
  setTimeout(fly,1200)}
 /* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
