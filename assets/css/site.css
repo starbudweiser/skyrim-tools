@@ -107,9 +107,9 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
 .press .dragon{position:absolute;right:0;top:-80px;width:min(44vw,580px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
 .press .dragon{z-index:2}
-.wench{position:relative;pointer-events:none;min-height:0}
-.wench .wimg{position:absolute;left:50%;top:40px;bottom:-140px;aspect-ratio:852/728;max-width:100%;translate:-50% 0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
-.wench .steam{mix-blend-mode:normal;opacity:.9}
+.wench{position:relative;pointer-events:none;min-height:0;z-index:3}
+.wench .wimg{position:absolute;left:50%;top:-130px;bottom:-140px;aspect-ratio:852/728;max-width:100%;translate:-50% 0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
+.wench .steam{mix-blend-mode:normal;translate:none;opacity:.95}
 .press .dragon .dfire{position:absolute;left:0;top:0;width:66.7%;height:auto;translate:none;mix-blend-mode:normal}
 @media(max-width:1000px){.press .dragon{display:none}}
 /* sage de Haut Hrothgar au-dessus de l'appel final : détouré, halo bleu du Thu'um et rafales de neige derrière lui */

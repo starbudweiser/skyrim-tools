@@ -36,7 +36,7 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
 (function(){const RMx=false;  /* animations gardées même avec « Réduire les animations » (choix du 03/11/2026) */
 /* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
 const g=document.getElementById('grid');if(g){const w=document.createElement('div');w.className='wench';w.setAttribute('aria-hidden','true');
- w.innerHTML='<div class="wimg"><video class="vfx steam" muted loop playsinline preload="none" data-r="1" style="left:22.5%;top:30%;width:26%"><source src="../assets/video/steam.mov" type=\'video/mp4; codecs="hvc1"\'><source src="../assets/video/steam.webm" type="video/webm"></video></div>';g.append(w);
+ w.innerHTML='<div class="wimg"><video class="vfx steam" muted loop playsinline preload="none" data-r="1" style="left:-2.35%;top:-35.17%;width:82.63%"><source src="../assets/video/steam.mov" type=\'video/mp4; codecs="hvc1"\'><source src="../assets/video/steam.webm" type="video/webm"></video></div>';g.append(w);
  const fit=()=>{const n=getComputedStyle(g).gridTemplateColumns.split(' ').length,k=APPS.length%n,e=k?n-k:0;w.style.display=e<2?'none':'';w.style.gridColumn=e<2?'':'span '+e};fit();addEventListener('resize',fit,{passive:true})}
 document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon,.wench').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
  new IntersectionObserver(es=>{const on=es[0].isIntersecting;box.classList.toggle('off',!on);
