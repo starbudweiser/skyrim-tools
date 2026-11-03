@@ -38,9 +38,10 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
    plus rapide quand il est proche, inclinaison selon la pente, retourné selon le sens */
 const wv=[...document.querySelectorAll('.wyrm video')];if(wv.length){const box=wv[0].parentElement,R=Math.random,U=(a,b)=>a+(b-a)*R(),bz=(p,t)=>{const u=1-t;return u*u*u*p[0]+3*u*u*t*p[1]+3*u*t*t*p[2]+t*t*t*p[3]};
  const Z={near:{w:[.42,.6],max:880,blur:.6,f:'none',T:[4.5,6.5],y:[-.1,.6]},mid:{w:[.22,.32],max:460,blur:2.2,f:'contrast(.95)',T:[8,11],y:[0,.5]},far:{w:[.1,.15],max:230,blur:2.6,f:'contrast(.82) brightness(1.18) saturate(.8)',T:[13,18],y:[.02,.4]}};
- const fly=()=>{const q=R(),k=q<.3?'near':q<.65?'mid':'far',c=Z[k],v=wv.find(e=>e.dataset.z===k),W=box.clientWidth,H=box.clientHeight,d=R()<.5?-1:1,w=Math.min(W*U(...c.w),c.max);
+ const DC=['gris','glace','feu','bronze'];  // couleur du dragon tirée au hasard à chaque passage
+ const fly=()=>{const q=R(),k=q<.3?'near':q<.65?'mid':'far',c=Z[k],v=wv.find(e=>e.dataset.z===k),col=DC[Math.floor(R()*DC.length)],W=box.clientWidth,H=box.clientHeight,d=R()<.5?-1:1,w=Math.min(W*U(...c.w),c.max);
   wv.forEach(e=>{if(e!==v){e.pause();e.style.visibility='hidden'}});
-  v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;v.preload='auto';try{v.currentTime=U(0,7.9)}catch(e){}v.playbackRate=k==='near'?U(.95,1.05):U(.9,1.12);v.play().catch(()=>{});
+  v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;v.preload='auto';const st=()=>{try{v.currentTime=U(0,7.9)}catch(e){}};if(v.dataset.c!==col){v.dataset.c=col;[...v.querySelectorAll('source')].forEach(s=>s.src=s.src.replace(/dragon_\w+?_(near|mid|far)\./,'dragon_'+col+'_$1.'));v.load();v.addEventListener('loadedmetadata',st,{once:true})}else st();v.playbackRate=k==='near'?U(.95,1.05):U(.9,1.12);v.play().catch(()=>{});
   const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);
   const T=U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
   const at=s=>{const x=s*L[N];let i=1;while(i<N&&L[i]<x)i++;return(i-1+(x-L[i-1])/((L[i]-L[i-1])||1))/N};
