@@ -110,12 +110,13 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 @supports (-webkit-hyphens:none){.hero-img,.tile,.hero{isolation:isolate;-webkit-mask-image:-webkit-radial-gradient(white,black);transform:translateZ(0)}
 .hero-img video.vfx,.sage video.vfx,.wench video.vfx{transform:translateZ(0);-webkit-backface-visibility:hidden}}
 /* le vieux sage et la serveuse : bords gauche, droit et bas fondus (transparence progressive) au lieu d'une coupe nette */
-.sage::after,.wench .wimg{-webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,#000 62%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,#000 62%,transparent);mask-composite:intersect}
-.wench .wimg{-webkit-mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,#000 78%,transparent);mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,#000 78%,transparent)}
+.sage::after,.wench .wimg::before{-webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,#000 62%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),linear-gradient(to bottom,#000 62%,transparent);mask-composite:intersect}
+.wench .wimg::before{-webkit-mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,#000 78%,transparent);mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,#000 78%,transparent)}
 .press .dragon{position:absolute;right:max(-110px,-8vw);top:-80px;width:min(44vw,580px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
 .press .dragon{z-index:2}
 .wench{position:relative;pointer-events:none;min-height:0;z-index:3}
-.wench .wimg{position:absolute;left:50%;top:-40px;bottom:-90px;aspect-ratio:852/728;max-width:100%;translate:-50% 0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
+.wench .wimg{position:absolute;left:50%;top:-40px;bottom:-90px;aspect-ratio:852/728;max-width:100%;translate:-50% 0}
+.wench .wimg::before{content:"";position:absolute;inset:0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
 .wench .steam{mix-blend-mode:normal;translate:none;opacity:.95}
 .press .dragon .dfire{position:absolute;left:0;top:0;width:66.7%;height:auto;translate:none;mix-blend-mode:normal}
 @media(max-width:1000px){.press .dragon{display:none}}

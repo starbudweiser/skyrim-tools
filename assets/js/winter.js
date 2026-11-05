@@ -3,7 +3,7 @@
  if(qf!==null&&'012'.includes(qf)&&qf!=='')t=+qf;
  else{const mob=matchMedia('(max-width:820px),(pointer:coarse)').matches;
   let gpu='';try{const g=document.createElement('canvas').getContext('webgl'),x=g&&g.getExtension('WEBGL_debug_renderer_info');gpu=x?String(g.getParameter(x.UNMASKED_RENDERER_WEBGL)):g?'':'none'}catch(e){gpu='none'}
-  const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic|none/i.test(gpu),cores=n.hardwareConcurrency||4,mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
+  const saf=/^((?!chrome|chromium|android).)*safari/i.test(n.userAgent);const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic|none/i.test(gpu),cores=saf?Math.max(8,n.hardwareConcurrency||0):(n.hardwareConcurrency||4),mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
   if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft||cores<4||mem<4){t=0;why=mob?'mobile':soft?'gpu':'eco'}
   else if(cores<6||mem<8||(px>14e6&&cores<8)){t=1;why='moyen'}
   try{const k=+sessionStorage.getItem('perf-cap2');if(k>=0&&k<t&&sessionStorage.getItem('perf-cap2')!==null)t=k}catch(e){}}
