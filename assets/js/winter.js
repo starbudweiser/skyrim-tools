@@ -6,12 +6,12 @@
   const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic|none/i.test(gpu),cores=n.hardwareConcurrency||4,mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
   if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft||cores<4||mem<4){t=0;why=mob?'mobile':soft?'gpu':'eco'}
   else if(cores<6||mem<8||(px>14e6&&cores<8)){t=1;why='moyen'}
-  try{const k=JSON.parse(ST('perf-cap')||'null');if(k&&Date.now()-k.ts<6048e5&&k.t<t)t=k.t}catch(e){}}
- const P={tier:t,why,on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{localStorage.setItem('perf-cap',JSON.stringify({t:v,ts:Date.now()}))}catch(e){}cb.forEach(f=>f(v))}};
+  try{const k=+sessionStorage.getItem('perf-cap2');if(k>=0&&k<t&&sessionStorage.getItem('perf-cap2')!==null)t=k}catch(e){}}
+ const P={tier:t,why,on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{sessionStorage.setItem('perf-cap2',v)}catch(e){}cb.forEach(f=>f(v))}};
  de.dataset.perf=t;
- /* surveillance : si l'affichage tombe sous ~40 images/s sur deux fenêtres de 2 s d'affilée, on retire un niveau d'effets (jamais l'inverse) */
- if(qf===null||qf===''){let f=0,t0=0,bad=0,last=0;const loop=now=>{if(P.tier<1)return;if(document.hidden||now-last>250){f=0;t0=now;last=now;requestAnimationFrame(loop);return}last=now;f++;
-   if(!t0)t0=now;if(now-t0>=2000){const fps=f*1000/(now-t0);bad=fps<40?bad+1:0;f=0;t0=now;if(bad>=2){bad=0;P.set(P.tier-1)}}requestAnimationFrame(loop)};
+ /* surveillance : si l'affichage tombe sous 30 images/s sur trois fenêtres de 2 s d'affilée (page au premier plan), on retire un niveau d'effets pour la session (jamais l'inverse) */
+ if(qf===null||qf===''){let f=0,t0=0,bad=0,last=0;const loop=now=>{if(P.tier<1)return;if(document.hidden||!document.hasFocus()||now-last>250){f=0;t0=now;last=now;requestAnimationFrame(loop);return}last=now;f++;
+   if(!t0)t0=now;if(now-t0>=2000){const fps=f*1000/(now-t0);bad=fps<30?bad+1:0;f=0;t0=now;if(bad>=3){bad=0;P.set(P.tier-1)}}requestAnimationFrame(loop)};
   setTimeout(()=>requestAnimationFrame(loop),2500)}
  return P})());
 
