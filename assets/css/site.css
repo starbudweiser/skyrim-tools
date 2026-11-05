@@ -105,7 +105,8 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 /* dragon du dossier de presse : à droite du titre ; fondu dans le noir en sombre, carte arrondie en clair */
 .press .in{position:relative}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
-.press .dragon{position:absolute;right:0;top:-80px;width:min(44vw,580px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
+.press{overflow-x:clip}
+.press .dragon{position:absolute;right:max(-110px,-8vw);top:-80px;width:min(44vw,580px);aspect-ratio:1152/896;background:url(../img/dragon.webp) center/contain no-repeat;pointer-events:none;z-index:0}
 .press .dragon{z-index:2}
 .wench{position:relative;pointer-events:none;min-height:0;z-index:3}
 .wench .wimg{position:absolute;left:50%;top:-40px;bottom:-90px;aspect-ratio:852/728;max-width:100%;translate:-50% 0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
