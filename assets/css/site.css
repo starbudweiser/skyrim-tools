@@ -106,6 +106,7 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .press .in{position:relative}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
 .press{overflow-x:clip}
+.sn{display:inline-block;max-width:100%;text-wrap:balance}
 /* Safari : les vidéos d'effets (fusion « screen ») débordent des coins arrondis, laissant des rectangles noirs ; on isole et on rogne explicitement */
 @supports (-webkit-hyphens:none){.hero-img,.tile,.hero{isolation:isolate;-webkit-mask-image:-webkit-radial-gradient(white,black);transform:translateZ(0)}
 .hero-img video.vfx,.sage video.vfx,.wench video.vfx{transform:translateZ(0);-webkit-backface-visibility:hidden}}

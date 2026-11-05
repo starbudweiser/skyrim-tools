@@ -137,6 +137,8 @@ const gl=hx&&hx.querySelector('canvas.glass');if(gl&&PERF.tier>=2&&hx.dataset.wx
   ds=ds.filter(d=>!d.dead);for(const d of ds){if(!d.fl){drop(d);continue}const t=Math.max(0,Math.min(1,(d.age-d.st)/d.me));
    if(t>0)drop({x:d.x,y:d.y+d.z*.1,r:d.r*Math.sqrt(t),a:d.a*Math.min(1,t*1.5)});
    if(t<1){const k=d.z*(1-.4*t)*(d.age<.2?1.15-d.age*.75:1)/48;gx.globalAlpha=Math.min(1,d.a)*(1-t)*.95;gx.save();gx.translate(d.x,d.y);gx.rotate(d.rot);gx.scale(k,k);gx.drawImage(d.fl,-48,-48);gx.restore()}}gx.globalAlpha=1;requestAnimationFrame(fr)}}
+/* sous-titres de chapitre : chaque phrase est un bloc insécable, la 2e phrase passe à la ligne en entier plutôt que de couper au milieu */
+document.querySelectorAll('.chap header p').forEach(p=>{const t=p.textContent.trim(),ph=t.split(/(?<=[.!?…])\s+/).filter(Boolean);if(ph.length<2)return;p.textContent='';ph.forEach((x,i)=>{const e=document.createElement('span');e.className='sn';e.textContent=x;p.append(e);if(i<ph.length-1)p.append(' ')})});
 /* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
 const g=document.getElementById('grid');if(g){const w=document.createElement('div');w.className='wench';w.setAttribute('aria-hidden','true');
  w.innerHTML='<div class="wimg"><img class="steam" src="../assets/img/steam.webp" alt="" style="left:-2.35%;top:-35.17%;width:82.63%"></div>';g.append(w);
