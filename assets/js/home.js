@@ -138,7 +138,7 @@ const gl=hx&&hx.querySelector('canvas.glass');if(gl&&PERF.tier>=2&&hx.dataset.wx
    if(t<1){const k=d.z*(1-.4*t)*(d.age<.2?1.15-d.age*.75:1)/48;gx.globalAlpha=Math.min(1,d.a)*(1-t)*.95;gx.save();gx.translate(d.x,d.y);gx.rotate(d.rot);gx.scale(k,k);gx.drawImage(d.fl,-48,-48);gx.restore()}}gx.globalAlpha=1;requestAnimationFrame(fr)}}
 /* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
 const g=document.getElementById('grid');if(g){const w=document.createElement('div');w.className='wench';w.setAttribute('aria-hidden','true');
- w.innerHTML='<div class="wimg"><video class="vfx steam" muted loop playsinline preload="none" data-r="1" style="left:-2.35%;top:-35.17%;width:82.63%"><source src="../assets/video/steam.mov" type=\'video/mp4; codecs="hvc1"\'><source src="../assets/video/steam.webm" type="video/webm"></video></div>';g.append(w);
+ w.innerHTML='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="l2a" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .5 .5 .5 0 -.02"/></filter></svg><div class="wimg"><video class="vfx steam" muted loop playsinline preload="none" data-r="1" src="../assets/video/steam.mp4" style="left:-2.35%;top:-35.17%;width:82.63%"></video></div>';g.append(w);
  const fit=()=>{const n=getComputedStyle(g).gridTemplateColumns.split(' ').length,k=APPS.length%n,e=k?n-k:0;w.style.display=e<2?'none':'';w.style.gridColumn=e<2?'':'span '+e};fit();addEventListener('resize',fit,{passive:true})}
 PERF.on(v=>{if(v<2)document.querySelectorAll('video.vfx').forEach(x=>x.pause())});
 document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon,.wench').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];

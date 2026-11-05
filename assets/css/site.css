@@ -117,7 +117,7 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .wench{position:relative;pointer-events:none;min-height:0;z-index:3}
 .wench .wimg{position:absolute;left:50%;top:-40px;bottom:-90px;aspect-ratio:852/728;max-width:100%;translate:-50% 0}
 .wench .wimg::before{content:"";position:absolute;inset:0;background:url(../img/serveuse.webp) center bottom/contain no-repeat}
-.wench .steam{mix-blend-mode:normal;translate:none;opacity:.95}
+.wench .steam{mix-blend-mode:normal;translate:none;opacity:.95;filter:url(#l2a)}
 .press .dragon .dfire{position:absolute;left:0;top:0;width:66.7%;height:auto;translate:none;mix-blend-mode:normal}
 @media(max-width:1000px){.press .dragon{display:none}}
 /* sage de Haut Hrothgar au-dessus de l'appel final : détouré, halo bleu du Thu'um et rafales de neige derrière lui */
