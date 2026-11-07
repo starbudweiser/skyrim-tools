@@ -39,11 +39,11 @@ const lt=$('#lt');let t=0;(function f(){t+=.004;if(!RM)lt.setAttribute('baseFreq
  if(qf!==null&&'012'.includes(qf)&&qf!=='')t=+qf;
  else{const mob=matchMedia('(max-width:820px),(pointer:coarse)').matches;
   let gpu='';try{const g=document.createElement('canvas').getContext('webgl'),x=g&&g.getExtension('WEBGL_debug_renderer_info');gpu=x?String(g.getParameter(x.UNMASKED_RENDERER_WEBGL)):g?'':'none'}catch(e){gpu='none'}
-  const saf=/^((?!chrome|chromium|android).)*safari/i.test(n.userAgent);const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic|none/i.test(gpu),cores=saf?Math.max(8,n.hardwareConcurrency||0):(n.hardwareConcurrency||4),mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
-  if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft||cores<4||mem<4){t=0;why=mob?'mobile':soft?'gpu':'eco'}
-  else if(cores<6||mem<8||(px>14e6&&cores<8)){t=1;why='moyen'}
+  const saf=/^((?!chrome|chromium|android).)*safari/i.test(n.userAgent);const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic/i.test(gpu),cores=saf?Math.max(8,n.hardwareConcurrency||0):(n.hardwareConcurrency||4),mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
+  /* cœurs et mémoire annoncés ne sont pas fiables (Brave et Safari les brouillent pour limiter le pistage) : on ne s'en sert plus ; mobile, économie de données et GPU logiciel coupent les effets, la surveillance de fluidité fait le reste */
+  if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft){t=0;why=mob?'mobile':soft?'gpu':'eco'}
   try{const k=+sessionStorage.getItem('perf-cap2');if(k>=0&&k<t&&sessionStorage.getItem('perf-cap2')!==null)t=k}catch(e){}}
- const P={tier:t,why,on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{sessionStorage.setItem('perf-cap2',v)}catch(e){}cb.forEach(f=>f(v))}};
+ const P={tier:t,why,dbg:{gpu:typeof gpu==='undefined'?'':gpu,cores:n.hardwareConcurrency,mem:n.deviceMemory},on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{sessionStorage.setItem('perf-cap2',v)}catch(e){}cb.forEach(f=>f(v))}};
  de.dataset.perf=t;
  /* surveillance : si l'affichage tombe sous 30 images/s sur trois fenêtres de 2 s d'affilée (page au premier plan), on retire un niveau d'effets pour la session (jamais l'inverse) */
  if(qf===null||qf===''){let f=0,t0=0,bad=0,last=0;const loop=now=>{if(P.tier<1)return;if(document.hidden||!document.hasFocus()||now-last>250){f=0;t0=now;last=now;requestAnimationFrame(loop);return}last=now;f++;
@@ -58,10 +58,10 @@ const wv=[...document.querySelectorAll('.wyrm img')];if(wv.length){const box=wv[
  const Z={near:{w:[.42,.6],max:880,blur:.6,f:'none',T:[4.5,6.5],y:[-.1,.6]},mid:{w:[.22,.32],max:460,blur:2.2,f:'contrast(.95)',T:[8,11],y:[0,.5]},far:{w:[.1,.15],max:230,blur:2.6,f:'contrast(.82) brightness(1.18) saturate(.8)',T:[13,18],y:[.02,.4]}};
  const DC=['gris','glace','feu','bronze'];  // couleur du dragon tirée au hasard à chaque passage
  /* apparitions : vrai tirage aléatoire sans rythme repérable. Attente = 15 s minimum + loi exponentielle (moyenne 55 s), et une fois sur cinq une longue pause de 1 à 3 min en plus ;
-    la distance, la couleur et le sens ne reviennent jamais deux fois de suite ; rien ne se passe quand l'onglet est caché ou que le hero est hors écran */
+    la couleur ne revient jamais deux fois de suite, la distance et le sens jamais trois fois de suite ; rien ne se passe quand l'onglet est caché ou que le hero est hors écran */
  const ex=m=>-Math.log(1-R())*m,wait=()=>15000+ex(40000)+(R()<.2?U(60000,180000):0),hist={k:[],c:[],d:[]};
- const pick=(arr,key,w)=>{const ok=arr.filter(x=>x!==hist[key][hist[key].length-1]&&!(key==='d'&&hist.d.length>1&&hist.d[hist.d.length-1]===x&&hist.d[hist.d.length-2]===x));const ws=w?ok.map(x=>w[x]):ok.map(()=>1);let t=R()*ws.reduce((a,b)=>a+b,0),i=0;while(i<ok.length-1&&(t-=ws[i])>0)i++;hist[key].push(ok[i]);if(hist[key].length>3)hist[key].shift();return ok[i]};
- const fly=()=>{if(PERF.tier<1||document.hidden||box.parentElement.classList.contains('off')){wv.forEach(e=>{e.removeAttribute('src');e.style.visibility='hidden'});setTimeout(fly,5000);return}const k=pick(['near','mid','far'],'k',{near:.3,mid:.35,far:.35}),c=Z[k],v=wv.find(e=>e.dataset.z===k),col=pick(DC,'c'),W=box.clientWidth,H=box.clientHeight,d=pick([-1,1],'d'),w=Math.min(W*U(...c.w),c.max);
+ const pick=(arr,key,w)=>{const h=hist[key],ok=arr.filter(x=>key==='c'?x!==h[h.length-1]:!(h.length>1&&h[h.length-1]===x&&h[h.length-2]===x));const ws=w?ok.map(x=>w[x]):ok.map(()=>1);let t=R()*ws.reduce((a,b)=>a+b,0),i=0;while(i<ok.length-1&&(t-=ws[i])>0)i++;hist[key].push(ok[i]);if(hist[key].length>3)hist[key].shift();return ok[i]};
+ const fly=()=>{if(PERF.tier<1||document.hidden||box.parentElement.classList.contains('off')){wv.forEach(e=>{e.removeAttribute('src');e.style.visibility='hidden'});setTimeout(fly,5000);return}const k=pick(['mid','far'],'k',{mid:.5,far:.5}),c=Z[k],v=wv.find(e=>e.dataset.z===k),col=pick(DC,'c'),W=box.clientWidth,H=box.clientHeight,d=pick([-1,1],'d'),w=Math.min(W*U(...c.w),c.max);
   wv.forEach(e=>{if(e!==v){e.removeAttribute('src');e.style.visibility='hidden'}});
   v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;const url='../assets/video/dragon_'+col+'_'+k+'.webp';v.removeAttribute('src');const begin=()=>{
   const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);

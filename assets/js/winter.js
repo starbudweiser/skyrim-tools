@@ -3,11 +3,11 @@
  if(qf!==null&&'012'.includes(qf)&&qf!=='')t=+qf;
  else{const mob=matchMedia('(max-width:820px),(pointer:coarse)').matches;
   let gpu='';try{const g=document.createElement('canvas').getContext('webgl'),x=g&&g.getExtension('WEBGL_debug_renderer_info');gpu=x?String(g.getParameter(x.UNMASKED_RENDERER_WEBGL)):g?'':'none'}catch(e){gpu='none'}
-  const saf=/^((?!chrome|chromium|android).)*safari/i.test(n.userAgent);const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic|none/i.test(gpu),cores=saf?Math.max(8,n.hardwareConcurrency||0):(n.hardwareConcurrency||4),mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
-  if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft||cores<4||mem<4){t=0;why=mob?'mobile':soft?'gpu':'eco'}
-  else if(cores<6||mem<8||(px>14e6&&cores<8)){t=1;why='moyen'}
+  const saf=/^((?!chrome|chromium|android).)*safari/i.test(n.userAgent);const soft=/swiftshader|llvmpipe|software|basic render|microsoft basic/i.test(gpu),cores=saf?Math.max(8,n.hardwareConcurrency||0):(n.hardwareConcurrency||4),mem=n.deviceMemory||8,px=screen.width*(devicePixelRatio||1)*screen.height*(devicePixelRatio||1);
+  /* cœurs et mémoire annoncés ne sont pas fiables (Brave et Safari les brouillent pour limiter le pistage) : on ne s'en sert plus ; mobile, économie de données et GPU logiciel coupent les effets, la surveillance de fluidité fait le reste */
+  if(mob||c.saveData||matchMedia('(prefers-reduced-data: reduce)').matches||soft){t=0;why=mob?'mobile':soft?'gpu':'eco'}
   try{const k=+sessionStorage.getItem('perf-cap2');if(k>=0&&k<t&&sessionStorage.getItem('perf-cap2')!==null)t=k}catch(e){}}
- const P={tier:t,why,on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{sessionStorage.setItem('perf-cap2',v)}catch(e){}cb.forEach(f=>f(v))}};
+ const P={tier:t,why,dbg:{gpu:typeof gpu==='undefined'?'':gpu,cores:n.hardwareConcurrency,mem:n.deviceMemory},on:f=>cb.push(f),set(v){if(v>=P.tier)return;P.tier=v;de.dataset.perf=v;try{sessionStorage.setItem('perf-cap2',v)}catch(e){}cb.forEach(f=>f(v))}};
  de.dataset.perf=t;
  /* surveillance : si l'affichage tombe sous 30 images/s sur trois fenêtres de 2 s d'affilée (page au premier plan), on retire un niveau d'effets pour la session (jamais l'inverse) */
  if(qf===null||qf===''){let f=0,t0=0,bad=0,last=0;const loop=now=>{if(P.tier<1)return;if(document.hidden||!document.hasFocus()||now-last>250){f=0;t0=now;last=now;requestAnimationFrame(loop);return}last=now;f++;
