@@ -106,7 +106,8 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .press .in{position:relative}
 .press .k,.press h2,.press .bignum,.press .spec{position:relative;z-index:1}
 .press{overflow-x:clip}
-.sn{display:inline-block;max-width:100%;text-wrap:balance}
+.sn{display:inline-block;max-width:100%}
+.chap header .sn,.lead .sn{text-wrap:balance}
 /* Safari : les vidéos d'effets (fusion « screen ») débordent des coins arrondis, laissant des rectangles noirs ; on isole et on rogne explicitement */
 @supports (-webkit-hyphens:none){.hero-img,.tile,.hero{isolation:isolate;-webkit-mask-image:-webkit-radial-gradient(white,black);transform:translateZ(0)}
 .hero-img video.vfx,.sage video.vfx,.wench video.vfx{transform:translateZ(0);-webkit-backface-visibility:hidden}}
@@ -191,7 +192,7 @@ footer{background:linear-gradient(to top,color-mix(in srgb,var(--bg) 0.0%,transp
 /* météo du hero, tirée au hasard à chaque visite (FX_JS) : particules sur un canvas, teinte du panorama et brume selon le temps */
 [data-perf="0"] .wyrm,[data-perf="0"] .hero .fx,[data-perf="0"] .hero .mist,[data-perf="0"] .hero-img .mist,[data-perf="0"] .hero-img .fx{display:none}
 [data-perf="0"] .pano,[data-perf="0"] .hero-img .pic,[data-perf="0"] .hero .mist{animation:none}
-[data-perf="0"] .ice,[data-perf="0"] .frost,[data-perf="1"] .ice,[data-perf="1"] .frost,[data-perf="0"] .glass,[data-perf="1"] .glass{display:none}
+[data-perf="0"] .press .dfire,[data-perf="1"] .press .dfire,[data-perf="0"] .ice,[data-perf="0"] .frost,[data-perf="1"] .ice,[data-perf="1"] .frost,[data-perf="0"] .glass,[data-perf="1"] .glass{display:none}
 .hero .wx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-2;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 10%,#000 60%,transparent 86%);mask-image:linear-gradient(to bottom,transparent 0,#000 10%,#000 60%,transparent 86%)}
 .hero[data-wx=neige] .pano{filter:blur(2px) saturate(.85) brightness(1.03)}
 .hero[data-wx=blizzard] .pano{filter:blur(3px) saturate(.6) brightness(1.06) contrast(.9)}

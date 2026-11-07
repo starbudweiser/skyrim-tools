@@ -141,15 +141,14 @@ const gl=hx&&hx.querySelector('canvas.glass');if(gl&&PERF.tier>=2&&hx.dataset.wx
   for(const d of ds){if(!d.fl){drop(d);continue}const t=Math.max(0,Math.min(1,(d.age-d.st)/d.me));
    if(t>0)drop({x:d.x,y:d.y+d.z*.1,r:d.r*Math.sqrt(t),a:d.a*Math.min(1,t*1.5)});
    if(t<1){const k=d.z*(1-.4*t)*(d.age<.2?1.15-d.age*.75:1)/48;gx.globalAlpha=Math.min(1,d.a)*(1-t)*.95;gx.save();gx.translate(d.x,d.y);gx.rotate(d.rot);gx.scale(k,k);gx.drawImage(d.fl,-48,-48);gx.restore()}}gx.globalAlpha=1;requestAnimationFrame(fr)}}
-/* sous-titres de chapitre : chaque phrase est un bloc insécable, la 2e phrase passe à la ligne en entier plutôt que de couper au milieu */
-document.querySelectorAll('.chap header p').forEach(p=>{const t=p.textContent.trim(),ph=t.split(/(?<=[.!?…])\s+/).filter(Boolean);if(ph.length<2)return;p.textContent='';ph.forEach((x,i)=>{const e=document.createElement('span');e.className='sn';e.textContent=x;p.append(e);if(i<ph.length-1)p.append(' ')})});
 /* serveuse dans les cases vides de la dernière ligne de la grille (2 cases libres ou plus) */
 const g=document.getElementById('grid');if(g){const w=document.createElement('div');w.className='wench';w.setAttribute('aria-hidden','true');
  w.innerHTML='<div class="wimg"><img class="steam" src="../assets/img/steam.webp" alt="" style="left:-2.35%;top:-35.17%;width:82.63%"></div>';g.append(w);
  const fit=()=>{const n=getComputedStyle(g).gridTemplateColumns.split(' ').length,k=APPS.length%n,e=k?n-k:0;w.style.display=e<2?'none':'';w.style.gridColumn=e<2?'':'span '+e};fit();addEventListener('resize',fit,{passive:true})}
 PERF.on(v=>{if(v<2)document.querySelectorAll('video.vfx').forEach(x=>x.pause())});
-document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon,.wench').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')];
+document.querySelectorAll('.hero-img,.hero,.sage,.press .dragon,.wench').forEach(box=>{const vids=[...box.querySelectorAll('video.vfx')],imgs=[...box.querySelectorAll('img[data-src]')];
  new IntersectionObserver(es=>{const on=es[0].isIntersecting;box.classList.toggle('off',!on);
+  imgs.forEach(i=>{if(on&&PERF.tier>=2)i.src=i.dataset.src;else i.removeAttribute('src')});
   vids.forEach(v=>{if(on&&!RMx&&PERF.tier>=2){v.preload='auto';v.playbackRate=+v.dataset.r||1;v.play().catch(()=>{})}else v.pause()})}).observe(box);
  if(!box.classList.contains('hero-img'))return;
  box.addEventListener('pointermove',e=>{const r=box.getBoundingClientRect();box.style.setProperty('--mx',((e.clientX-r.left)/r.width*2-1).toFixed(3));box.style.setProperty('--my',((e.clientY-r.top)/r.height*2-1).toFixed(3))});
