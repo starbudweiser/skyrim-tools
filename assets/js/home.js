@@ -137,7 +137,7 @@ const gl=hx&&hx.querySelector('canvas.glass');if(gl&&PERF.tier>=2&&hx.dataset.wx
     if(d.y-d.last>d.r*1.6){d.last=d.y;add(d.x+U(-1,1),d.y-d.r*1.3,d.r*U(.18,.32),true);d.r*=.985}
     for(const e of ds)if(e!==d&&!e.dead&&Math.hypot(e.x-d.x,e.y-d.y)<d.r+e.r*.8){d.r=Math.min(13,Math.sqrt(d.r*d.r+e.r*e.r));e.dead=true}}
    if(d.y>h+20||d.age>d.life||d.r<.8)d.dead=true}
-  ds=ds.filter(d=>!d.dead);if(mist&&fogOk)for(const d of ds)if(!d.fl)wipe(d.x,d.y,d.r,Math.min(1,d.a)*.9);
+  ds=ds.filter(d=>!d.dead);if(mist&&fogOk)for(const d of ds)if(!d.fl&&d.slide)wipe(d.x,d.y,d.r,Math.min(1,d.a)*.9);  /* seules les gouttes qui glissent essuient la buée : pas de halo autour des autres */
   for(const d of ds){if(!d.fl){drop(d);continue}const t=Math.max(0,Math.min(1,(d.age-d.st)/d.me));
    if(t>0)drop({x:d.x,y:d.y+d.z*.1,r:d.r*Math.sqrt(t),a:d.a*Math.min(1,t*1.5)});
    if(t<1){const k=d.z*(1-.4*t)*(d.age<.2?1.15-d.age*.75:1)/48;gx.globalAlpha=Math.min(1,d.a)*(1-t)*.95;gx.save();gx.translate(d.x,d.y);gx.rotate(d.rot);gx.scale(k,k);gx.drawImage(d.fl,-48,-48);gx.restore()}}gx.globalAlpha=1;requestAnimationFrame(fr)}}
