@@ -22,13 +22,13 @@ function open(){
  last=document.activeElement;reset();dlg.classList.add('kv-on');sizeMarks();
  if(!v.src){v.src='../assets/film/kit.mp4'}
  v.load();
- if(RM){st.classList.add('kv-gone');pl.classList.add('kv-ready');at(500,()=>v.play().catch(()=>{}));return}
+ if(RM){st.classList.add('kv-gone');pl.classList.add('kv-ready');at(1000,()=>v.play().catch(()=>{}));return}
  snd.currentTime=0;snd.play().catch(()=>{});
  at(250,()=>setRings(0,0,0));                 // les trois anneaux tournent jusqu'à la combinaison
  at(1650,()=>st.classList.add('kv-lit'));        // la griffe s'allume
  at(2050,()=>st.classList.add('kv-crack'));      // fente de lumière
  at(2350,()=>st.classList.add('kv-open'));     // les battants s'écartent
- at(2850,()=>v.play().catch(()=>{}));         // la vidéo démarre une demi-seconde plus tard
+ at(3350,()=>v.play().catch(()=>{}));         // la vidéo démarre une seconde plus tard
  at(3700,()=>{st.classList.add('kv-gone');pl.classList.add('kv-ready')});
 }
 function close(){reset();dlg.classList.remove('kv-on');last&&last.focus()}
