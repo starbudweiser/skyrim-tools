@@ -12,12 +12,12 @@ function ui(){if(!b)return;const l=live();b.setAttribute('aria-pressed',l);b.set
  const need=on&&!ok&&!!AC&&!!cur()&&!!b.dataset.hint;clearTimeout(ht);
  if(need){ht=setTimeout(()=>{if(!hint){hint=document.createElement('span');hint.className='snd-hint';hint.setAttribute('aria-hidden','true');hint.textContent=b.dataset.hint;b.append(hint)}requestAnimationFrame(()=>hint.classList.add('show'))},2500)}
  else if(hint)hint.classList.remove('show')}
-const VOL={clair:.7,neige:.75,blizzard:.5,pluie:.55,orage:.55,brouillard:.75,automne:.6},U='../assets/audio/wx/';
+const VOL={clair:.7,neige:.75,blizzard:.5,pluie:.55,orage:.55,brouillard:.75,automne:.6},LEN={neige:45,blizzard:45},U='../assets/audio/wx/';
 let g=null,vis=true,busy=null,th=[],off=0,first,gone;
 const cur=()=>hx&&hx.querySelector('canvas.wx')&&VOL[hx.dataset.wx]?hx.dataset.wx:'',dlg=document.getElementById('kv-dlg'),want=()=>on&&vis&&!document.hidden&&!(dlg&&dlg.classList.contains('kv-on'))&&!!VOL[cur()];
 const buf=u=>fetch(u).then(r=>r.arrayBuffer()).then(d=>new Promise((ok,ko)=>cx.decodeAudioData(d,ok,ko)));
 function load(){if(busy)return busy;const w=cur();
- busy=buf(U+w+'.m4a').then(a=>{const s=cx.createBufferSource();s.buffer=a;s.loop=true;s.loopEnd=Math.min(a.duration,32);s.connect(g);s.start()}).catch(()=>{busy=null});
+ busy=buf(U+w+'.m4a').then(a=>{const s=cx.createBufferSource();s.buffer=a;s.loop=true;s.loopEnd=Math.min(a.duration,LEN[w]||32);s.connect(g);s.start()}).catch(()=>{busy=null});
  if(w==='orage')[1,2,3].forEach(i=>buf(U+'thunder'+i+'.m4a').then(a=>th.push(a),()=>{}));return busy}
 function apply(gest){if(!AC||!hx)return;clearTimeout(off);
  if(!want()){if(!cx)return;const t=cx.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+1);off=setTimeout(()=>cx.suspend(),1100);return}
@@ -44,6 +44,12 @@ const wnext=()=>{if(!wbag.length){for(let i=1;i<=WN;i++)wbag.push(i);for(let i=W
 const howl=(pan,delay)=>{const i=wnext();(wbuf[i]||(wbuf[i]=buf(U+'wolf'+i+'.m4a').catch(()=>{delete wbuf[i]}))).then(a=>{if(!a||!cx||cx.state!=='running')return;const R=Math.random,
  s=cx.createBufferSource(),gn=cx.createGain();s.buffer=a;s.playbackRate.value=.9+R()*.16;gn.gain.value=(cur()==='blizzard'?.18:.24)+R()*.12;s.connect(gn);let out=gn;
  if(cx.createStereoPanner){const p=cx.createStereoPanner();p.pan.value=pan;gn.connect(p);out=p}out.connect(cx.destination);s.start(cx.currentTime+delay)})};
+/* créatures lointaines, toutes météos (chiens, chèvres, chouette, corneilles, ours, chevaux, rapace) : toutes les 25 à 70 s, 15 cris dans un sac */
+const CN=15,cbag=[],cbuf={};let cf=1;
+const cnext=()=>{if(!cbag.length){for(let i=1;i<=CN;i++)cbag.push(i);for(let i=CN-1;i>0;i--){const j=Math.random()*(i+1)|0;[cbag[i],cbag[j]]=[cbag[j],cbag[i]]}}return cbag.pop()};
+(function critters(){setTimeout(()=>{cf=0;if(want()&&ok){const i=cnext(),R=Math.random;(cbuf[i]||(cbuf[i]=buf(U+'crea'+String(i).padStart(2,'0')+'.m4a').catch(()=>{delete cbuf[i]}))).then(a=>{if(!a||!cx||cx.state!=='running')return;
+ const s=cx.createBufferSource(),gn=cx.createGain();s.buffer=a;s.playbackRate.value=.93+R()*.12;gn.gain.value=.16+R()*.12;s.connect(gn);let out=gn;
+ if(cx.createStereoPanner){const p=cx.createStereoPanner();p.pan.value=(R()*2-1)*.85;gn.connect(p);out=p}out.connect(cx.destination);s.start()})}critters()},cf?10000+Math.random()*15000:25000+Math.random()*45000)})();
 let wf=1;(function wolves(){setTimeout(()=>{wf=0;if(want()&&ok&&WIN[cur()]){const p=(Math.random()*2-1)*.8;howl(p,0);if(Math.random()<.35)howl(-p*.9,1.5+Math.random()*2.5)}wolves()},wf?6000+Math.random()*9000:20000+Math.random()*40000)})();
 /* cris de dragon lointains au passage des dragons : 16 cris tirés dans un sac (pas de répétition avant d'avoir tout entendu),
    chargés à la demande ; hauteur, niveau et éloignement variés à chaque fois, le cri suit le dragon de gauche à droite */
