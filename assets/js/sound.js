@@ -7,7 +7,11 @@ const get=k=>{try{return localStorage.getItem(k)}catch(e){return null}},set=(k,v
 let on=get('snd')!=='off',cx=null,ok=false;  /* ok : le navigateur a autorisé le son au moins une fois */
 /* le bouton montre ce qu'on entend : barré tant que le navigateur n'a pas encore autorisé le son */
 const live=()=>on&&(ok||!AC||!cur());
-function ui(){if(!b)return;const l=live();b.setAttribute('aria-pressed',l);b.setAttribute('aria-label',l?b.dataset.on:b.dataset.off);b.classList.toggle('on',l)}
+let hint=null,ht=0;
+function ui(){if(!b)return;const l=live();b.setAttribute('aria-pressed',l);b.setAttribute('aria-label',l?b.dataset.on:b.dataset.off);b.classList.toggle('on',l);
+ const need=on&&!ok&&!!AC&&!!cur()&&!!b.dataset.hint;clearTimeout(ht);
+ if(need){ht=setTimeout(()=>{if(!hint){hint=document.createElement('span');hint.className='snd-hint';hint.setAttribute('aria-hidden','true');hint.textContent=b.dataset.hint;b.append(hint)}requestAnimationFrame(()=>hint.classList.add('show'))},2500)}
+ else if(hint)hint.classList.remove('show')}
 const VOL={clair:.7,neige:.75,blizzard:.5,pluie:.55,orage:.55,brouillard:.75,automne:.6},U='../assets/audio/wx/';
 let g=null,vis=true,busy=null,th=[],off=0,first,gone;
 const cur=()=>hx&&hx.querySelector('canvas.wx')&&VOL[hx.dataset.wx]?hx.dataset.wx:'',dlg=document.getElementById('kv-dlg'),want=()=>on&&vis&&!document.hidden&&!(dlg&&dlg.classList.contains('kv-on'))&&!!VOL[cur()];
@@ -33,5 +37,5 @@ if(dlg)new MutationObserver(()=>apply()).observe(dlg,{attributes:true,attributeF
 if(hx&&'IntersectionObserver'in window)new IntersectionObserver(es=>{vis=es[0].isIntersecting;apply()},{threshold:.15}).observe(hx);
 addEventListener('wx-flash',()=>{if(!want()||!th.length||!cx||cx.state!=='running')return;const s=cx.createBufferSource(),k=cx.createGain();s.buffer=th[Math.random()*th.length|0];
  k.gain.value=.35+Math.random()*.2;s.connect(k);k.connect(cx.destination);s.start(cx.currentTime+.5+Math.random()*2.2)});
-addEventListener('load',()=>setTimeout(apply,300));
+addEventListener('load',()=>setTimeout(()=>{ui();apply()},300));
 })();
