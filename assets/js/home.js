@@ -61,14 +61,17 @@ const wv=[...document.querySelectorAll('.wyrm img')];if(wv.length){const box=wv[
     la couleur ne revient jamais deux fois de suite, la distance et le sens jamais trois fois de suite ; rien ne se passe quand l'onglet est caché ou que le hero est hors écran */
  const ex=m=>-Math.log(1-R())*m,wait=()=>15000+ex(40000)+(R()<.2?U(60000,180000):0),hist={k:[],c:[],d:[]};
  const pick=(arr,key,w)=>{const h=hist[key],ok=arr.filter(x=>key==='c'?x!==h[h.length-1]:!(h.length>1&&h[h.length-1]===x&&h[h.length-2]===x));const ws=w?ok.map(x=>w[x]):ok.map(()=>1);let t=R()*ws.reduce((a,b)=>a+b,0),i=0;while(i<ok.length-1&&(t-=ws[i])>0)i++;hist[key].push(ok[i]);if(hist[key].length>3)hist[key].shift();return ok[i]};
- const fly=()=>{if(PERF.tier<1||document.hidden||box.parentElement.classList.contains('off')){wv.forEach(e=>{e.removeAttribute('src');e.style.visibility='hidden'});setTimeout(fly,5000);return}const k=pick(['mid','far'],'k',{mid:.5,far:.5}),c=Z[k],v=wv.find(e=>e.dataset.z===k),col=pick(DC,'c'),W=box.clientWidth,H=box.clientHeight,d=pick([-1,1],'d'),w=Math.min(W*U(...c.w),c.max);
+ /* dragons et nuées d'oiseaux ne partagent jamais le ciel (sinon les tailles se contredisent) : SKY.dragon / SKY.birds */
+ const SKY=window.SKY||(window.SKY={dragon:0,birds:0});
+ const fly=()=>{if(PERF.tier<1||document.hidden||box.parentElement.classList.contains('off')){wv.forEach(e=>{e.removeAttribute('src');e.style.visibility='hidden'});setTimeout(fly,5000);return}
+  if(SKY.birds>0){setTimeout(fly,3000);return}SKY.dragon=1;const k=pick(['mid','far'],'k',{mid:.5,far:.5}),c=Z[k],v=wv.find(e=>e.dataset.z===k),col=pick(DC,'c'),W=box.clientWidth,H=box.clientHeight,d=pick([-1,1],'d'),w=Math.min(W*U(...c.w),c.max);
   wv.forEach(e=>{if(e!==v){e.removeAttribute('src');e.style.visibility='hidden'}});
   v.style.width=w+'px';v.style.filter=(c.blur?'blur('+c.blur+'px) ':'')+c.f;const url='../assets/video/dragon_'+col+'_'+k+'.webp';v.removeAttribute('src');const begin=()=>{
   const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);
   const T=U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
   const at=s=>{const x=s*L[N];let i=1;while(i<N&&L[i]<x)i++;return(i-1+(x-L[i-1])/((L[i]-L[i-1])||1))/N};
   let t0=performance.now(),r=0;v.style.visibility='visible';dispatchEvent(new CustomEvent('wyrm',{detail:{k,d,T}}));  /* cri lointain (sound.js) */
-  const step=n=>{const s=(n-t0)/T;if(s>=1){v.style.visibility='hidden';v.removeAttribute('src');setTimeout(fly,wait());return}
+  const step=n=>{const s=(n-t0)/T;if(s>=1){v.style.visibility='hidden';v.removeAttribute('src');SKY.dragon=0;setTimeout(fly,wait());return}
    const t=at(s),x=bz(xs,t),y=bz(ys,t),e=.002,dy=bz(ys,Math.min(1,t+e))-bz(ys,Math.max(0,t-e)),dx=Math.abs(bz(xs,Math.min(1,t+e))-bz(xs,Math.max(0,t-e)))||1;
    r+=(Math.max(-16,Math.min(16,-Math.atan2(dy,dx)*57.3))-r)*.06;
    v.style.transform='translate3d('+x.toFixed(1)+'px,'+y.toFixed(1)+'px,0) scaleX('+(-d)+') rotate('+r.toFixed(2)+'deg)';requestAnimationFrame(step)};
@@ -179,15 +182,16 @@ if(hx&&!MOB&&PERF.tier>=2&&BW[W0]&&!matchMedia('(prefers-reduced-motion: reduce)
  const c=document.createElement('canvas');c.className='wx birds';c.setAttribute('aria-hidden','true');(hx.querySelector('canvas.wx')||hx.firstChild).after(c);
  const x=c.getContext('2d'),R=Math.random,U=(a,b)=>a+(b-a)*R(),dpr=Math.min(2,devicePixelRatio||1),TAU=6.2832,fog=BW[W0],bl=W0==='blizzard';
  let w=0,h=0,on=true,lt=0;const rs=()=>{w=hx.clientWidth;h=hx.clientHeight;c.width=w*dpr;c.height=h*dpr;x.setTransform(dpr,0,0,dpr,0,0)};
- const LV=[{y:[.1,.22],v:[30,50],s:[1.9,2.6],n:[18,40],sp:[30,110],a:.5,lw:1,wait:[6,30],first:[1,4]},
-           {y:[.16,.36],v:[70,105],s:[3,4.2],n:[10,26],sp:[40,170],a:.66,lw:1.3,wait:[20,50],first:[6,14]}].map(l=>({...l,on:0,t:U(...l.first)}));
- const go=l=>{const d=R()<.5?1:-1;Object.assign(l,{on:1,d,x:d>0?-10:w+10,y0:U(...l.y)*h,vel:U(...l.v)*(bl?.8:1),sz:U(...l.s),k:0,
+ const LV=[{y:[.1,.22],v:[30,50],s:[1.9,2.6],n:[18,40],sp:[30,110],a:.5,lw:1,wait:[15,45],first:[1,4]},
+           {y:[.16,.36],v:[70,105],s:[3,4.2],n:[10,26],sp:[40,170],a:.66,lw:1.3,wait:[25,60],first:[6,14]}].map(l=>({...l,on:0,t:U(...l.first)}));
+ const SKY=window.SKY||(window.SKY={dragon:0,birds:0});
+ const go=l=>{if(SKY.dragon){l.t=2;return}SKY.birds++;const d=R()<.5?1:-1;Object.assign(l,{on:1,d,x:d>0?-10:w+10,y0:U(...l.y)*h,vel:U(...l.v)*(bl?.8:1),sz:U(...l.s),k:0,
   b:Array.from({length:Math.round(U(...l.n))},()=>{const r=Math.sqrt(R());return{ox:-d*r*U(...l.sp),oy:U(-1,1)*r*l.sp[1]*.25,ph:R()*TAU,f:U(8,11),s:U(.75,1.15)}})})};
  const draw=(l,dt)=>{if(!l.on){if((l.t-=dt)<0)go(l);return}l.k+=dt;l.x+=l.d*l.vel*dt;
   const cy=l.y0+Math.sin(l.k*.35)*h*.025+(bl?Math.sin(l.k*1.7)*8:0);x.strokeStyle='rgba(30,32,38,'+(l.a*fog)+')';x.lineWidth=l.lw;x.beginPath();
   for(const o of l.b){o.ph+=o.f*dt;const px=l.x+o.ox+Math.sin(l.k*.6+o.oy*.05)*10,py=cy+o.oy+Math.sin(l.k*.9+o.ox*.02)*12,s=l.sz*o.s,a=Math.sin(o.ph)*.9;
    x.moveTo(px-s*1.2,py-a*s);x.quadraticCurveTo(px-s*.5,py-a*s*.2,px,py);x.quadraticCurveTo(px+s*.5,py-a*s*.2,px+s*1.2,py-a*s)}
-  x.stroke();if(l.d>0?l.x-l.sp[1]-60>w:l.x+l.sp[1]+60<0){l.on=0;l.t=U(...l.wait)}};
+  x.stroke();if(l.d>0?l.x-l.sp[1]-60>w:l.x+l.sp[1]+60<0){l.on=0;SKY.birds=Math.max(0,SKY.birds-1);l.t=U(...l.wait)}};
  rs();addEventListener('resize',rs,{passive:true});
  const fr=n=>{if(!on)return;const dt=lt?Math.min(.05,(n-lt)/1000):0;lt=n;x.clearRect(0,0,w,h);for(const l of LV)draw(l,dt);requestAnimationFrame(fr)};
  new IntersectionObserver(es=>{on=es[0].isIntersecting;if(on){lt=0;requestAnimationFrame(fr)}}).observe(hx);
