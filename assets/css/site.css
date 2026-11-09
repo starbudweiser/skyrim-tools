@@ -256,3 +256,82 @@ footer{background:linear-gradient(to top,color-mix(in srgb,var(--bg) 0.0%,transp
 @media(max-width:640px){.strip img:nth-child(n+8){display:none}}
 
 .statement{padding-left:max(24px,min(10vw,120px));padding-right:max(24px,min(10vw,120px))}
+/* lecteur vidéo « porte à griffe » (maquette validée le 09/11/2026) */
+/* ===== la porte : 5 couches de la même image, chaque anneau masqué et tourné ===== */
+.kv-door{position:relative;aspect-ratio:1;--ra:0deg;--rb:0deg;--rc:0deg}
+.kv-door i{position:absolute;inset:0;background:url(../film/door.webp) center/100% no-repeat;transition:transform .9s cubic-bezier(.55,-.25,.3,1.35)}
+.kv-door .kv-c {-webkit-mask:radial-gradient(closest-side,#000 23%,transparent 23.2%);mask:radial-gradient(closest-side,#000 23%,transparent 23.2%)}
+.kv-door .kv-ra{-webkit-mask:radial-gradient(closest-side,transparent 23%,#000 23.2%,#000 32%,transparent 32.2%);mask:radial-gradient(closest-side,transparent 23%,#000 23.2%,#000 32%,transparent 32.2%);transform:rotate(var(--ra))}
+.kv-door .kv-rb{-webkit-mask:radial-gradient(closest-side,transparent 32%,#000 32.2%,#000 63.3%,transparent 63.5%);mask:radial-gradient(closest-side,transparent 32%,#000 32.2%,#000 63.3%,transparent 63.5%);transform:rotate(var(--rb));transition-delay:.25s}
+.kv-door .kv-rc{-webkit-mask:radial-gradient(closest-side,transparent 63.3%,#000 63.5%,#000 93%,transparent 93.2%);mask:radial-gradient(closest-side,transparent 63.3%,#000 63.5%,#000 93%,transparent 93.2%);transform:rotate(var(--rc));transition-delay:.5s}
+.kv-door .kv-rim{-webkit-mask:radial-gradient(closest-side,transparent 93%,#000 93.2%);mask:radial-gradient(closest-side,transparent 93%,#000 93.2%)}
+/* lueur de la griffe */
+.kv-door b{position:absolute;left:50%;top:50%;width:20%;height:20%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,70,.9),rgba(255,120,30,.35) 55%,transparent);mix-blend-mode:screen;opacity:0;transition:opacity .5s}
+.kv-lit .kv-door b{opacity:1;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+
+/* ----- bouton « Voir la vidéo » : la porte en miniature ----- */
+.hero .kv-watch{text-shadow:var(--ts)}
+.kv-watch{display:inline-flex;align-items:center;gap:12px;color:var(--text);background:none;border:0;font:inherit;font-weight:500;cursor:pointer;padding:0}
+.kv-watch .kv-door{width:46px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(255,154,60,.25))}
+.kv-watch .kv-door i{transition-duration:.7s}
+.kv-watch:hover .kv-door{--ra:90deg;--rb:-45deg;--rc:45deg}
+.kv-watch:hover .kv-door b{opacity:.8}
+.kv-watch small{display:block;font-size:12px;color:var(--muted);font-weight:500;text-align:left}
+.kv-watch span{text-align:left;line-height:1.15}
+.kv-watch:hover .kv-t{text-decoration:underline;text-underline-offset:4px}
+
+/* ===== lecteur ===== */
+.kv-dlg{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:28px;opacity:0;pointer-events:none;transition:opacity .4s;
+ background:radial-gradient(70% 60% at 50% 45%,rgba(40,30,20,.55),rgba(4,3,2,.95)),rgba(4,3,2,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.kv-dlg.kv-on{opacity:1;pointer-events:auto}
+.kv-player{width:min(1180px,100%)}
+.kv-stage{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#000;
+ box-shadow:0 0 0 1px #000,0 0 0 3px #3a2c1a,0 0 0 4px rgba(192,138,62,.6),0 40px 120px -20px rgba(0,0,0,.9),0 0 120px -40px rgba(255,154,60,.4)}
+.kv-stage video{position:absolute;inset:0;width:100%;height:100%;display:block}
+video::cue{font-family:-apple-system,system-ui,sans-serif;font-size:clamp(14px,2vw,24px);color:#f6ecd8;background:rgba(10,8,6,.72)}
+/* les deux battants : mur + porte, coupés au milieu */
+.kv-half{position:absolute;inset:0;transition:transform 1.25s cubic-bezier(.7,0,.25,1),filter 1.25s}
+.kv-half.kv-l{clip-path:inset(0 50% 0 0)}.kv-half.kv-r{clip-path:inset(0 0 0 50%)}
+.kv-wall{position:absolute;inset:0;background:
+ radial-gradient(18% 32% at 6% 40%,rgba(255,150,60,.35),transparent 70%),radial-gradient(18% 32% at 94% 40%,rgba(255,150,60,.35),transparent 70%),
+ radial-gradient(70% 70% at 50% 50%,rgba(0,0,0,.15),rgba(0,0,0,.75)),linear-gradient(rgba(25,22,18,.55),rgba(10,9,8,.8)),url(../film/stone.jpg) center/cover}
+.kv-half .kv-door{position:absolute;left:50%;top:50%;height:88%;transform:translate(-50%,-50%);filter:drop-shadow(0 18px 40px rgba(0,0,0,.8))}
+.kv-open .kv-half.kv-l{transform:translateX(-56%);filter:brightness(.55)}.kv-open .kv-half.kv-r{transform:translateX(56%);filter:brightness(.55)}
+.kv-gone .kv-half{visibility:hidden}
+/* fente de lumière au moment où la porte se déverrouille */
+.kv-seam{position:absolute;left:50%;top:6%;bottom:6%;width:3px;margin-left:-1.5px;background:linear-gradient(transparent,#ffd59a 20%,#fff2d6 50%,#ffd59a 80%,transparent);box-shadow:0 0 18px 6px rgba(255,170,70,.55);opacity:0;transition:opacity .3s}
+.kv-crack .kv-seam{opacity:1}.kv-open .kv-seam{opacity:0;transition-duration:.6s}
+/* poussière qui tombe à l'ouverture */
+.kv-dust{position:absolute;inset:0;pointer-events:none}
+.kv-dust s{position:absolute;top:-4px;width:3px;height:3px;border-radius:50%;background:rgba(220,200,170,.7);opacity:0}
+.kv-open .kv-dust s{animation:fall var(--t) ease-in forwards;animation-delay:var(--d)}
+@keyframes fall{0%{opacity:0;transform:translate(0,0)}15%{opacity:.8}100%{opacity:0;transform:translate(var(--x),110%)}}
+/* relancer (après la fin) */
+.kv-again{position:absolute;inset:0;display:none;place-items:center;background:rgba(0,0,0,.45);border:0;cursor:pointer;color:var(--bronze2);font:700 14px/1 inherit;letter-spacing:.2em}
+.kv-ended .kv-again{display:grid}
+.kv-again .kv-door{width:min(22vw,150px);margin:0 auto 12px}
+
+/* barre de commandes : bande de bronze */
+.kv-bar{display:flex;align-items:center;gap:14px;margin-top:16px;padding:10px 16px;border-radius:999px;
+ background:linear-gradient(#2a2016,#17110b);box-shadow:inset 0 1px 0 rgba(241,194,122,.25),inset 0 -1px 0 rgba(0,0,0,.6),0 0 0 1px rgba(192,138,62,.35),0 14px 40px -10px rgba(0,0,0,.8);
+ color:var(--bronze2);opacity:0;transform:translateY(8px);transition:opacity .5s .2s,transform .5s .2s}
+.kv-gone .kv-bar,.kv-player.kv-ready .kv-bar{opacity:1;transform:none}
+.kv-bar button{background:none;border:0;color:inherit;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;transition:background .2s,color .2s}
+.kv-bar button:hover{background:rgba(241,194,122,.12);color:#fff1d4}
+.kv-bar button[aria-pressed=true]{color:var(--ember)}
+.kv-bar svg{width:20px;height:20px}
+.kv-time{font-size:13px;font-weight:700;letter-spacing:.08em;min-width:92px;font-variant-numeric:tabular-nums}
+.kv-track{position:relative;flex:1;height:34px;cursor:pointer}
+.kv-track::before{content:"";position:absolute;left:0;right:0;top:16px;height:2px;background:rgba(241,194,122,.25)}
+.kv-fill{position:absolute;left:0;top:15px;height:4px;width:0;border-radius:2px;background:linear-gradient(90deg,#8a5a22,var(--ember));box-shadow:0 0 10px rgba(255,154,60,.6)}
+/* repères : médaillons d'animaux découpés dans la porte */
+.kv-mark{position:absolute;top:0;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:url(../film/door.webp) no-repeat;cursor:pointer;
+ box-shadow:0 0 0 1.5px rgba(192,138,62,.8),0 3px 8px rgba(0,0,0,.7);filter:saturate(.7) brightness(.9);transition:transform .25s cubic-bezier(.2,.8,.2,1),filter .25s,box-shadow .25s}
+.kv-mark:hover,.kv-mark.kv-on{transform:scale(1.25);filter:none;box-shadow:0 0 0 1.5px var(--bronze2),0 0 14px rgba(255,154,60,.7)}
+.kv-mark span{position:absolute;bottom:42px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;letter-spacing:.06em;white-space:nowrap;padding:3px 8px;border-radius:4px;background:#17110b;box-shadow:0 0 0 1px rgba(192,138,62,.5);opacity:0;transition:opacity .2s;pointer-events:none}
+.kv-mark:hover span{opacity:1}
+.kv-close{position:fixed;top:18px;right:22px;z-index:51;width:40px;height:40px;border-radius:50%;border:0;background:rgba(23,17,11,.8);box-shadow:0 0 0 1px rgba(192,138,62,.5);color:var(--bronze2);font:600 18px/1 -apple-system,system-ui,sans-serif;cursor:pointer}
+.kv-close:hover{color:#fff1d4}
+@media(max-width:700px){.kv-time{display:none}.kv-mark{width:26px;height:26px;margin-left:-13px;top:4px}.kv-bar{gap:6px;padding:6px 10px}}
+@media(prefers-reduced-motion:reduce){.kv-door i,.kv-half{transition:none}.kv-lit .kv-door b{animation:none}}
