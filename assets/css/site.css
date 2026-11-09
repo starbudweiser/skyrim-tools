@@ -135,7 +135,7 @@ nav{white-space:nowrap}nav a.l{white-space:nowrap}
 .cta h2,.cta .btn{position:relative;z-index:1}
 .cta h2{color:#f5f5f7;text-shadow:0 2px 24px rgba(0,0,0,.55)}
 .vfx.flame{-webkit-mask-image:linear-gradient(to top,#000 62%,transparent);mask-image:linear-gradient(to top,#000 62%,transparent)}  /* haut des flammes fondu */
-/* bouton musique */
+/* bouton des effets sonores */
 .snd svg .w{display:none}.snd.on svg .w{display:inline}.snd.on svg .x{display:none}
 .snd.on{color:var(--btn)}
 /* performance : flous cuits dans les images, aucun filtre recalculé à chaque image */
