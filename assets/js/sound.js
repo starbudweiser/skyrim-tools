@@ -38,6 +38,13 @@ if(hx&&'IntersectionObserver'in window)new IntersectionObserver(es=>{vis=es[0].i
 addEventListener('wx-flash',()=>{if(!want()||!th.length||!cx||cx.state!=='running')return;const s=cx.createBufferSource(),k=cx.createGain();s.buffer=th[Math.random()*th.length|0];
  k.gain.value=.35+Math.random()*.2;s.connect(k);k.connect(cx.destination);s.start(cx.currentTime+.5+Math.random()*2.2)});
 addEventListener('load',()=>setTimeout(()=>{ui();apply()},300));
+/* hurlements de loup lointains dans les trois hivers : toutes les 20 à 60 s, 8 variantes dans un sac, parfois un second loup qui répond de l'autre côté */
+const WN=8,wbag=[],wbuf={},WIN={neige:1,blizzard:1,brouillard:1};
+const wnext=()=>{if(!wbag.length){for(let i=1;i<=WN;i++)wbag.push(i);for(let i=WN-1;i>0;i--){const j=Math.random()*(i+1)|0;[wbag[i],wbag[j]]=[wbag[j],wbag[i]]}}return wbag.pop()};
+const howl=(pan,delay)=>{const i=wnext();(wbuf[i]||(wbuf[i]=buf(U+'wolf'+i+'.m4a').catch(()=>{delete wbuf[i]}))).then(a=>{if(!a||!cx||cx.state!=='running')return;const R=Math.random,
+ s=cx.createBufferSource(),gn=cx.createGain();s.buffer=a;s.playbackRate.value=.9+R()*.16;gn.gain.value=(cur()==='blizzard'?.18:.24)+R()*.12;s.connect(gn);let out=gn;
+ if(cx.createStereoPanner){const p=cx.createStereoPanner();p.pan.value=pan;gn.connect(p);out=p}out.connect(cx.destination);s.start(cx.currentTime+delay)})};
+let wf=1;(function wolves(){setTimeout(()=>{wf=0;if(want()&&ok&&WIN[cur()]){const p=(Math.random()*2-1)*.8;howl(p,0);if(Math.random()<.35)howl(-p*.9,1.5+Math.random()*2.5)}wolves()},wf?6000+Math.random()*9000:20000+Math.random()*40000)})();
 /* cris de dragon lointains au passage des dragons : 16 cris tirés dans un sac (pas de répétition avant d'avoir tout entendu),
    chargés à la demande ; hauteur, niveau et éloignement variés à chaque fois, le cri suit le dragon de gauche à droite */
 const DN=16,dbag=[],dbuf={};
