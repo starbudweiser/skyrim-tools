@@ -103,7 +103,7 @@ if(cv&&!MOB){const WX=['clair','neige','blizzard','pluie','orage','brouillard','
     if(rain){const k=p.l*p.z/p.vy;cx.moveTo(p.x,p.y);cx.lineTo(p.x-p.vx*k,p.y-p.vy*k)}
     else{cx.globalAlpha=(dk?.85:.95)*p.z;cx.beginPath();cx.arc(p.x,p.y,p.s*p.z,0,6.283);cx.fill()}}
    cx.globalAlpha=1;if(rain)cx.stroke();
-   if(wx==='orage'){if(n>nf){fl=1;nf=n+U([6000,14000])}if(fl>0){const a=fl>.7?.35:fl>.5?.05:fl>.35?.25:fl*.4;cx.fillStyle='rgba(225,232,255,'+a+')';cx.fillRect(0,0,w,h);fl-=dt*1.6}}
+   if(wx==='orage'){if(n>nf){fl=1;nf=n+U([6000,14000]);dispatchEvent(new Event('wx-flash'))}if(fl>0){const a=fl>.7?.35:fl>.5?.05:fl>.35?.25:fl*.4;cx.fillStyle='rgba(225,232,255,'+a+')';cx.fillRect(0,0,w,h);fl-=dt*1.6}}
    requestAnimationFrame(fr)}}}
 /* pluie, orage, neige, blizzard : gouttes (ou flocons qui fondent en gouttes) sur la vitre de l'écran ; chacune est une petite lentille qui montre le paysage inversé et réduit,
    bord sombre et reflet ; les grosses glissent, laissent une traînée de gouttelettes et absorbent celles qu'elles touchent */
