@@ -111,7 +111,17 @@ const bg=hx&&hx.querySelector('canvas.glass');
 if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
  const x=bg.getContext('2d'),R=Math.random,U=(a,b)=>a+(b-a)*R(),dpr=Math.min(2,devicePixelRatio||1),h1=hx.querySelector('h1'),TAU=6.2832;
  let w=0,h=0,on=true,lt=0;
- const rs=()=>{w=hx.clientWidth;h=hx.clientHeight;bg.width=w*dpr;bg.height=h*dpr;x.setTransform(dpr,0,0,dpr,0,0)};
+ 
+ /* nuées d'oiseaux au loin (derrière le titre, canevas de la météo) : une formation souple qui ondule traverse le ciel de temps en temps */
+ const bx=cv&&cv.getContext('2d'),nu={on:0,t:U(3,9)};
+ const flock=()=>{const d=R()<.5?1:-1,n=Math.round(U(16,36));Object.assign(nu,{on:1,d,x:d>0?-260:w+260,y:U(h*.12,h*.3),v:U(55,95),s:U(2.2,3.4),k:0,
+  b:Array.from({length:n},()=>{const r=Math.sqrt(R());return{ox:-d*r*U(40,190),oy:U(-1,1)*r*45,ph:R()*TAU,f:U(8,11),s:U(.75,1.15)}})})};
+ const drawBirds=dt=>{if(!bx)return;bx.clearRect(0,0,w,h);if(!nu.on){if((nu.t-=dt)<0)flock();return}
+  nu.k+=dt;nu.x+=nu.d*nu.v*dt;const cy=nu.y+Math.sin(nu.k*.35)*h*.03;bx.strokeStyle='rgba(30,32,38,.5)';bx.lineWidth=1.1;bx.lineCap='round';bx.beginPath();
+  for(const o of nu.b){o.ph+=o.f*dt;const px=nu.x+o.ox+Math.sin(nu.k*.6+o.oy*.05)*10,py=cy+o.oy+Math.sin(nu.k*.9+o.ox*.02)*12,s=nu.s*o.s,a=Math.sin(o.ph)*.9;
+   bx.moveTo(px-s*1.2,py-a*s);bx.quadraticCurveTo(px-s*.5,py-a*s*.2,px,py);bx.quadraticCurveTo(px+s*.5,py-a*s*.2,px+s*1.2,py-a*s)}
+  bx.stroke();if(nu.d>0?nu.x-200>w+60:nu.x+200<-60){nu.on=0;nu.t=U(18,45)}};
+ const rs=()=>{w=hx.clientWidth;h=hx.clientHeight;bg.width=w*dpr;bg.height=h*dpr;x.setTransform(dpr,0,0,dpr,0,0);if(cv){cv.width=w*dpr;cv.height=h*dpr;bx.setTransform(dpr,0,0,dpr,0,0)}};
  /* perchoirs : le haut de chaque lettre du titre (capitales et hampes plus haut que les minuscules) */
  const perch=()=>{const o=hx.getBoundingClientRect(),tw=document.createTreeWalker(h1,NodeFilter.SHOW_TEXT),r=document.createRange(),s=[];let n;
   while(n=tw.nextNode())for(let i=0;i<n.length;i++){const c=n.data[i];if(!/[A-Za-z]/.test(c))continue;r.setStart(n,i);r.setEnd(n,i+1);const b=r.getBoundingClientRect();if(!b.width)continue;
@@ -167,7 +177,7 @@ if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-moti
   if(f.st==='out'){f.p=Math.min(1,f.p+dt/.6);const e=f.p*f.p;f.x=f.sx+(f.ex-f.sx)*e;f.y=f.sy+(f.ey-f.sy)*e;if(f.p>=1){f.st='wait';f.t=U(25,60)}}};
  rs();addEventListener('resize',rs,{passive:true});
  const fr=n=>{if(!on)return;const dt=lt?Math.min(.05,(n-lt)/1000):0;lt=n;x.clearRect(0,0,w,h);
-  drawMg(n);for(const b of bf){stepBf(b,dt);drawBf(b)}stepFly(dt);if(fly.st!=='wait')drawFly();requestAnimationFrame(fr)};
+  drawBirds(dt);drawMg(n);for(const b of bf){stepBf(b,dt);drawBf(b)}stepFly(dt);if(fly.st!=='wait')drawFly();requestAnimationFrame(fr)};
  new IntersectionObserver(es=>{on=es[0].isIntersecting;if(on){lt=0;requestAnimationFrame(fr)}}).observe(hx);
 }
 /* pluie, orage, neige, blizzard : gouttes (ou flocons qui fondent en gouttes) sur la vitre de l'écran ; chacune est une petite lentille qui montre le paysage inversé et réduit,

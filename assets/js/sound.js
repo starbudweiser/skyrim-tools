@@ -15,7 +15,7 @@ if(get('snd')==='on')start().catch(()=>{const go=()=>{start().catch(()=>{});remo
 /* ambiance de la météo du hero (accueil) : seulement avec le son allumé et le hero à l'écran ; boucle Web Audio,
    contexte suspendu dès qu'on n'écoute plus (aucun calcul) ; tonnerre décalé après chaque éclair de l'orage */
 (function(){const hx=document.querySelector('.hero'),AC=window.AudioContext||window.webkitAudioContext;if(!hx||!AC)return;
-const VOL={clair:.7,neige:.75,blizzard:.5,pluie:.55,orage:.55,brouillard:.75,automne:.6},LEN={pluie:26,orage:26},U='../assets/audio/wx/';
+const VOL={clair:.7,neige:.75,blizzard:.5,pluie:.55,orage:.55,brouillard:.75,automne:.6},LEN={},U='../assets/audio/wx/';
 let cx=null,g=null,on=false,vis=true,busy=null,th=[],off=0;
 const cur=()=>hx.querySelector('canvas.wx')?hx.dataset.wx||'':'',want=()=>on&&vis&&!document.hidden&&!!VOL[cur()];
 const buf=u=>fetch(u).then(r=>r.arrayBuffer()).then(d=>new Promise((ok,ko)=>cx.decodeAudioData(d,ok,ko)));
