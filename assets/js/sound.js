@@ -44,16 +44,16 @@ const wnext=()=>{if(!wbag.length){for(let i=1;i<=WN;i++)wbag.push(i);for(let i=W
 const howl=(pan,delay)=>{const i=wnext();(wbuf[i]||(wbuf[i]=buf(U+'wolf'+i+'.m4a').catch(()=>{delete wbuf[i]}))).then(a=>{if(!a||!cx||cx.state!=='running')return;const R=Math.random,
  s=cx.createBufferSource(),gn=cx.createGain();s.buffer=a;s.playbackRate.value=.9+R()*.16;gn.gain.value=(cur()==='blizzard'?.18:.24)+R()*.12;s.connect(gn);let out=gn;
  if(cx.createStereoPanner){const p=cx.createStereoPanner();p.pan.value=pan;gn.connect(p);out=p}out.connect(cx.destination);s.start(cx.currentTime+delay)})};
-/* créatures lointaines, toutes météos (chiens, chèvres, chouette, corneilles, ours, chevaux, rapace) : toutes les 25 à 70 s, 15 cris dans un sac */
-const CN=15,cbag=[],cbuf={};let cf=1;
+/* créatures lointaines, toutes météos (chiens, chèvres, chouette, corneilles, ours, chevaux, rapace, cerfs, wapiti) : toutes les 25 à 70 s, 19 cris dans un sac */
+const CN=19,cbag=[],cbuf={};let cf=1;
 const cnext=()=>{if(!cbag.length){for(let i=1;i<=CN;i++)cbag.push(i);for(let i=CN-1;i>0;i--){const j=Math.random()*(i+1)|0;[cbag[i],cbag[j]]=[cbag[j],cbag[i]]}}return cbag.pop()};
 (function critters(){setTimeout(()=>{cf=0;if(want()&&ok){const i=cnext(),R=Math.random;(cbuf[i]||(cbuf[i]=buf(U+'crea'+String(i).padStart(2,'0')+'.m4a').catch(()=>{delete cbuf[i]}))).then(a=>{if(!a||!cx||cx.state!=='running')return;
  const s=cx.createBufferSource(),gn=cx.createGain();s.buffer=a;s.playbackRate.value=.93+R()*.12;gn.gain.value=.16+R()*.12;s.connect(gn);let out=gn;
  if(cx.createStereoPanner){const p=cx.createStereoPanner();p.pan.value=(R()*2-1)*.85;gn.connect(p);out=p}out.connect(cx.destination);s.start()})}critters()},cf?10000+Math.random()*15000:25000+Math.random()*45000)})();
 let wf=1;(function wolves(){setTimeout(()=>{wf=0;if(want()&&ok&&WIN[cur()]){const p=(Math.random()*2-1)*.8;howl(p,0);if(Math.random()<.35)howl(-p*.9,1.5+Math.random()*2.5)}wolves()},wf?6000+Math.random()*9000:20000+Math.random()*40000)})();
-/* cris de dragon lointains au passage des dragons : 16 cris tirés dans un sac (pas de répétition avant d'avoir tout entendu),
+/* cris de dragon lointains au passage des dragons : 12 cris (générés avec ElevenLabs) tirés dans un sac (pas de répétition avant d'avoir tout entendu),
    chargés à la demande ; hauteur, niveau et éloignement variés à chaque fois, le cri suit le dragon de gauche à droite */
-const DN=16,dbag=[],dbuf={};
+const DN=12,dbag=[],dbuf={};
 const dnext=()=>{if(!dbag.length){for(let i=1;i<=DN;i++)dbag.push(i);for(let i=DN-1;i>0;i--){const j=Math.random()*(i+1)|0;[dbag[i],dbag[j]]=[dbag[j],dbag[i]]}}return dbag.pop()};
 const dget=i=>dbuf[i]||(dbuf[i]=buf(U+'dragon'+String(i).padStart(2,'0')+'.m4a').catch(()=>{delete dbuf[i]}));
 addEventListener('wyrm',e=>{if(!on||!ok||!cx||!vis||document.hidden||(dlg&&dlg.classList.contains('kv-on')))return;const{k,d,T}=e.detail,R=Math.random,far=k==='far';
