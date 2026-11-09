@@ -38,4 +38,16 @@ if(hx&&'IntersectionObserver'in window)new IntersectionObserver(es=>{vis=es[0].i
 addEventListener('wx-flash',()=>{if(!want()||!th.length||!cx||cx.state!=='running')return;const s=cx.createBufferSource(),k=cx.createGain();s.buffer=th[Math.random()*th.length|0];
  k.gain.value=.35+Math.random()*.2;s.connect(k);k.connect(cx.destination);s.start(cx.currentTime+.5+Math.random()*2.2)});
 addEventListener('load',()=>setTimeout(()=>{ui();apply()},300));
+/* cris de dragon lointains au passage des dragons : 16 cris tirés dans un sac (pas de répétition avant d'avoir tout entendu),
+   chargés à la demande ; hauteur, niveau et éloignement variés à chaque fois, le cri suit le dragon de gauche à droite */
+const DN=16,dbag=[],dbuf={};
+const dnext=()=>{if(!dbag.length){for(let i=1;i<=DN;i++)dbag.push(i);for(let i=DN-1;i>0;i--){const j=Math.random()*(i+1)|0;[dbag[i],dbag[j]]=[dbag[j],dbag[i]]}}return dbag.pop()};
+const dget=i=>dbuf[i]||(dbuf[i]=buf(U+'dragon'+String(i).padStart(2,'0')+'.m4a').catch(()=>{delete dbuf[i]}));
+addEventListener('wyrm',e=>{if(!on||!ok||!cx||!vis||document.hidden||(dlg&&dlg.classList.contains('kv-on')))return;const{k,d,T}=e.detail,R=Math.random,far=k==='far';
+ const cry=(delay,i)=>dget(i).then(a=>{if(!a||cx.state!=='running')return;const s=cx.createBufferSource(),f=cx.createBiquadFilter(),gn=cx.createGain(),t=cx.currentTime+delay/1000;
+  s.buffer=a;s.playbackRate.value=(far?.86:.92)+R()*.18;f.type='lowpass';f.frequency.value=far?1500+R()*700:2600+R()*900;gn.gain.value=far?.2+R()*.12:.34+R()*.14;
+  s.connect(f);f.connect(gn);let out=gn;
+  if(cx.createStereoPanner){const pn=cx.createStereoPanner(),p0=-d*.65*(1-delay/T*1.6),dur=Math.max(.5,(T-delay)/1000);pn.pan.setValueAtTime(Math.max(-1,Math.min(1,p0)),t);pn.pan.linearRampToValueAtTime(d*.65,t+dur);gn.connect(pn);out=pn}
+  out.connect(cx.destination);s.start(t)});
+ const d1=T*(.12+R()*.33);cry(d1,dnext());if(R()<.3)cry(d1+1800+R()*T*.3,dnext())});
 })();

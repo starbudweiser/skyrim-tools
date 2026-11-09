@@ -67,7 +67,7 @@ const wv=[...document.querySelectorAll('.wyrm img')];if(wv.length){const box=wv[
   const a0=d<0?W+w*.1:-w*1.1,a3=d<0?-w*1.1:W+w*.1,xs=[a0,a0+(a3-a0)*U(.2,.45),a0+(a3-a0)*U(.55,.8),a3],ys=[0,0,0,0].map(()=>U(...c.y)*H);
   const T=U(...c.T)*1000*Math.max(.8,Math.min(1.4,W/1300)),N=64,L=[0];for(let i=1;i<=N;i++)L.push(L[i-1]+Math.hypot(bz(xs,i/N)-bz(xs,(i-1)/N),bz(ys,i/N)-bz(ys,(i-1)/N)));
   const at=s=>{const x=s*L[N];let i=1;while(i<N&&L[i]<x)i++;return(i-1+(x-L[i-1])/((L[i]-L[i-1])||1))/N};
-  let t0=performance.now(),r=0;v.style.visibility='visible';
+  let t0=performance.now(),r=0;v.style.visibility='visible';dispatchEvent(new CustomEvent('wyrm',{detail:{k,d,T}}));  /* cri lointain (sound.js) */
   const step=n=>{const s=(n-t0)/T;if(s>=1){v.style.visibility='hidden';v.removeAttribute('src');setTimeout(fly,wait());return}
    const t=at(s),x=bz(xs,t),y=bz(ys,t),e=.002,dy=bz(ys,Math.min(1,t+e))-bz(ys,Math.max(0,t-e)),dx=Math.abs(bz(xs,Math.min(1,t+e))-bz(xs,Math.max(0,t-e)))||1;
    r+=(Math.max(-16,Math.min(16,-Math.atan2(dy,dx)*57.3))-r)*.06;
