@@ -249,6 +249,7 @@ footer{background:linear-gradient(to top,color-mix(in srgb,var(--bg) 0.0%,transp
 .tile.stele p{color:#14120f;font-size:16.5px;font-weight:500;line-height:1.35;text-shadow:0 1px 0 rgba(255,255,255,.45)}
 .tile.stele .a{justify-content:center;gap:16px;font-size:16px;margin-top:auto;text-shadow:0 1px 0 rgba(255,255,255,.4)}
 .tile.stele .a a{color:#0b3d6e;font-weight:700}
+.tile .a{flex-wrap:wrap;align-items:center}.tile .a a.try{background:var(--blue,#0a84ff);color:#fff;padding:5px 14px;border-radius:999px;font-weight:700;text-decoration:none}.tile .a a.try:hover{filter:brightness(1.1);text-decoration:none}.tile.stele .a a.try{color:#fff}
 .tile.stele p{flex:0 1 auto}
 @media(max-width:640px){.tile.stele{padding:34% 18% 13%}}
 .flinks{margin:0 0 14px;font-size:14px}.flinks a{color:var(--text)}.flinks a:hover{text-decoration:underline}
