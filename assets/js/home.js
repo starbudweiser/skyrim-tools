@@ -108,7 +108,7 @@ if(cv&&!MOB){const WX=['clair','neige','blizzard','pluie','orage','brouillard','
    cx.globalAlpha=1;if(rain)cx.stroke();
    if(wx==='orage'){if(n>nf){fl=1;nf=n+U([6000,14000]);dispatchEvent(new Event('wx-flash'))}if(fl>0){const a=fl>.7?.35:fl>.5?.05:fl>.35?.25:fl*.4;cx.fillStyle='rgba(225,232,255,'+a+')';cx.fillRect(0,0,w,h);fl-=dt*1.6}}
    requestAnimationFrame(fr)}}}
-/* été (météo dégagée) : trois papillons qui volettent et viennent se poser sur les lettres du titre, un petit essaim de moucherons,
+/* été (météo dégagée) : six papillons qui volettent et viennent se poser sur les lettres du titre, un petit essaim de moucherons,
    et de temps en temps une mouche qui atterrit sur la vitre de l'écran, marche un peu puis repart ; un seul canevas, arrêté hors champ */
 const bg=hx&&hx.querySelector('canvas.glass');
 if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -123,8 +123,8 @@ if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-moti
    s.push({x:b.left-o.left+b.width*(c==='k'?.28:c==='l'?.5:.5),y:b.top-o.top+b.height*(/[A-Zbdfhklt]/.test(c)?.21:.38)})}
   return s};
  /* papillons : piéride blanche, orangé, citron */
- const BF=[['rgba(255,251,238,.95)','#b9ae8a','#3a3a3a'],['rgba(255,170,70,.95)','#a8501a','#3b1c0c'],['rgba(250,240,170,.95)','#b3a250','#5a4e1c']];
- const bf=BF.map(c=>({c,x:0,y:0,vx:U(-40,40),vy:U(-20,20),tx:0,ty:0,wt:0,wa:R()*TAU,st:'fly',t:U(3,9),s:U(.85,1.15),p:null,ini:0}));
+ const BF=[['rgba(255,251,238,.95)','#b9ae8a','#3a3a3a'],['rgba(255,170,70,.95)','#a8501a','#3b1c0c'],['rgba(250,240,170,.95)','#b3a250','#5a4e1c'],['rgba(150,190,240,.95)','#4a6fa0','#2a3a55'],['rgba(255,225,120,.95)','#a77a1a','#4a3410']];
+ const bf=BF.concat(BF.slice(0,1)).map(c=>({c,x:0,y:0,vx:U(-40,40),vy:U(-20,20),tx:0,ty:0,wt:0,wa:R()*TAU,st:'fly',t:U(3,9),s:U(.85,1.15),p:null,ini:0}));
  const wander=b=>{b.tx=U(w*.12,w*.88);b.ty=U(h*.08,h*.5);b.wt=U(1.6,3.6)};
  const drawBf=b=>{const op=b.st==='land'?.18+.82*(.5+.5*Math.cos(b.wa)):.12+.88*Math.abs(Math.cos(b.wa)),k=b.s;
   x.save();x.translate(b.x,b.y);x.rotate(b.st==='land'?0:Math.max(-.5,Math.min(.5,b.vx/260)));x.scale(k,k);
@@ -147,8 +147,8 @@ if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-moti
  const drawMg=n=>{const t=n/1000,cx0=w*(.2+.06*Math.sin(t*.07)),cy0=h*(.22+.04*Math.sin(t*.11));x.fillStyle='rgba(28,28,30,.55)';
   for(const m of mg){const px=cx0+Math.sin(t*m.a*2+m.c)*m.r+Math.sin(t*7.3*m.a)*2,py=cy0+Math.cos(t*m.b*2+m.c)*m.r*.6+Math.cos(t*6.1*m.b)*2;x.beginPath();x.arc(px,py,1.3,0,TAU);x.fill()}};
  /* mouche sur la vitre : arrive du fond (petite, floue), se pose, marche par à-coups, se frotte les pattes, repart vers le spectateur */
- const fly={st:'wait',t:U(10,24),x:0,y:0,a:0,p:0,sx:0,sy:0,lx:0,ly:0,ex:0,ey:0,wk:0,wt:0,dx:0,dy:0,leg:0,rub:0};
- const drawFly=()=>{const f=fly,k=f.st==='in'?.2+.8*f.p:f.st==='out'?1+1.6*f.p:1,al=f.st==='in'?Math.min(1,f.p*2.5):f.st==='out'?1-f.p:1,air=f.st!=='sit';
+ const mkFly=t=>({st:'wait',t,x:0,y:0,a:0,p:0,sx:0,sy:0,lx:0,ly:0,ex:0,ey:0,wk:0,wt:0,dx:0,dy:0,leg:0,rub:0});const flies=[mkFly(U(5,12)),mkFly(U(12,24)),mkFly(U(20,40))];
+ const drawFly=f=>{const k=f.st==='in'?.2+.8*f.p:f.st==='out'?1+1.6*f.p:1,al=f.st==='in'?Math.min(1,f.p*2.5):f.st==='out'?1-f.p:1,air=f.st!=='sit';
   x.save();x.globalAlpha=al;x.translate(f.x,f.y);x.rotate(f.a);x.scale(k*1.15,k*1.15);
   if(!air){x.fillStyle='rgba(0,0,0,.18)';x.beginPath();x.ellipse(1.5,2.5,6,11,0,0,TAU);x.fill()}
   if(!air){x.strokeStyle='#141416';x.lineWidth=.9;const g=f.leg,rb=f.rub;
@@ -162,17 +162,17 @@ if(bg&&PERF.tier>=2&&hx.dataset.wx==='clair'&&!matchMedia('(prefers-reduced-moti
   x.fillStyle='#1a1a1c';x.beginPath();x.ellipse(0,-6.5,3.4,2.6,0,0,TAU);x.fill();
   x.fillStyle='#7a2c1c';x.beginPath();x.ellipse(-2.3,-7,1.7,2.1,-.3,0,TAU);x.fill();x.beginPath();x.ellipse(2.3,-7,1.7,2.1,.3,0,TAU);x.fill();
   x.fillStyle='rgba(255,255,255,.35)';x.beginPath();x.arc(-1.2,-1.5,1.2,0,TAU);x.fill();x.restore()};
- const stepFly=dt=>{const f=fly;
+ const stepFly=(f,dt)=>{
   if(f.st==='wait'){if((f.t-=dt)<0){f.st='in';f.p=0;f.lx=U(w*.18,w*.82);f.ly=U(h*.2,h*.62);const e=R()*TAU;f.sx=f.lx+Math.cos(e)*w*.35;f.sy=f.ly+Math.sin(e)*h*.3;f.a=Math.atan2(f.ly-f.sy,f.lx-f.sx)+1.57}return}
   if(f.st==='in'){f.p=Math.min(1,f.p+dt/1.1);const e=1-Math.pow(1-f.p,3),wb=Math.sin(f.p*18)*(1-f.p)*18;f.x=f.sx+(f.lx-f.sx)*e+wb;f.y=f.sy+(f.ly-f.sy)*e;if(f.p>=1){f.st='sit';f.t=U(4,9);f.wt=U(.4,1.2);f.wk=0}return}
   if(f.st==='sit'){f.t-=dt;
    if(f.wk>0){f.wk-=dt;f.x+=f.dx*dt;f.y+=f.dy*dt;f.leg=Math.sin(f.wk*40)*2;f.rub=0;if(f.x<20||f.x>w-20||f.y<20||f.y>h*.75)f.wk=0}
    else{f.leg=0;f.rub=f.wt<.6&&f.rubbing?Math.sin(f.wt*45)*2.5:0;if((f.wt-=dt)<0){if(R()<.3){f.rubbing=1;f.wt=U(.8,1.6)}else{f.rubbing=0;f.a+=U(-1.1,1.1);const sp=U(30,55);f.dx=Math.sin(f.a)*sp;f.dy=-Math.cos(f.a)*sp;f.wk=U(.25,.6);f.wt=U(.5,1.5)}}}
    if(f.t<0){f.st='out';f.p=0;f.sx=f.x;f.sy=f.y;const e=R()*TAU;f.ex=f.x+Math.cos(e)*w*.5;f.ey=f.y+Math.sin(e)*h*.4-h*.2}return}
-  if(f.st==='out'){f.p=Math.min(1,f.p+dt/.6);const e=f.p*f.p;f.x=f.sx+(f.ex-f.sx)*e;f.y=f.sy+(f.ey-f.sy)*e;if(f.p>=1){f.st='wait';f.t=U(25,60)}}};
+  if(f.st==='out'){f.p=Math.min(1,f.p+dt/.6);const e=f.p*f.p;f.x=f.sx+(f.ex-f.sx)*e;f.y=f.sy+(f.ey-f.sy)*e;if(f.p>=1){f.st='wait';f.t=U(9,24)}}};
  rs();addEventListener('resize',rs,{passive:true});
  const fr=n=>{if(!on)return;const dt=lt?Math.min(.05,(n-lt)/1000):0;lt=n;x.clearRect(0,0,w,h);
-  drawMg(n);for(const b of bf){stepBf(b,dt);drawBf(b)}stepFly(dt);if(fly.st!=='wait')drawFly();requestAnimationFrame(fr)};
+  drawMg(n);for(const b of bf){stepBf(b,dt);drawBf(b)}for(const f of flies){stepFly(f,dt);if(f.st!=='wait')drawFly(f)}requestAnimationFrame(fr)};
  new IntersectionObserver(es=>{on=es[0].isIntersecting;if(on){lt=0;requestAnimationFrame(fr)}}).observe(hx);
 }
 /* nuées d'oiseaux au loin, en été et dans les trois hivers : deux profondeurs (lointaine, petite et voilée ; plus proche, plus grande et rapide),
